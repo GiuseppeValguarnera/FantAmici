@@ -366,7 +366,8 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const CLOUD = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
 
 /* --- Plus: verifica pagamento tramite licenza Gumroad. Vuoto = modalità demo. --- */
-const GUMROAD_PRODUCT_ID = '1u-6oBSr0gQWLkP3BCcanw==';  
+const GUMROAD_PRODUCT_ID = "1u-6oBSr0gQWLkP3BCcanw==";
+const GUMROAD_PERMALINK  = "xxjmgg";
 
 /* ---------- REGOLE: 20 bonus + 20 malus (situazionali) ---------- */
 const RULES = [
@@ -1148,7 +1149,7 @@ function panePlus(lg){
         <li>😈 Malus "interni" che solo voi capite</li>
         <li>♾️ Numero illimitato di regole custom</li>
       </ul>
-      <a class="btn sun lg" href="${PAYPAL_URL}" target="_blank" rel="noopener" style="margin-bottom:14px">💳 Acquista FantAmici Plus</a>
+      <a class="btn sun lg" href="${GUMROAD_PERMALINK?('https://cobalto7.gumroad.com/l/'+GUMROAD_PERMALINK):PAYPAL_URL}" target="_blank" rel="noopener" style="margin-bottom:14px">💳 Acquista FantAmici Plus</a>
       ${liveMode ? `
         <div id="plusMsg"></div>
         <div class="field" style="max-width:340px;margin:0 auto 10px"><label style="color:#fff">Inserisci il codice licenza ricevuto</label>
