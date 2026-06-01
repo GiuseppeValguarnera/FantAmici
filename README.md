@@ -4,8 +4,9 @@
 
 FantAmici è una web app ispirata al FantaSanremo: crei una squadra di amici, l'host assegna **bonus** e **malus** in base a quanto ognuno si lancia nelle sfide della serata, e due classifiche (giocatori e squadre) decretano chi è il più *accollativo* del gruppo.
 
+🔗 **Demo live:** _aggiungi qui il link dopo il deploy (es. https://fantamici.netlify.app)_
 
-![Stato](https://img.shields.io/badge/stato-pronto-22B473) ![Licenza](https://img.shields.io/badge/licenza-MIT-FF9F1C)
+![Stato](https://img.shields.io/badge/stato-pronto-22B473) ![Licenza](https://img.shields.io/badge/licenza-Proprietaria-FF5A6E)
 
 ---
 
@@ -76,8 +77,14 @@ La guida passo-passo è in **[SETUP.md](./SETUP.md)** e copre:
 
 ## 🔒 Note sulla sicurezza
 
-FantAmici è pensato per gruppi di amici: la protezione di una lega è il suo codice segreto e la password dell'host. È perfetto per il divertimento, ma non è pensato per dati sensibili. Le chiavi inserite nel codice sono la *anon public key* di Supabase (pensata per essere pubblica) e l'ID prodotto Gumroad: entrambe possono stare in un repository pubblico.
+FantAmici è pensato per gruppi di amici: la protezione di una lega è il suo codice segreto e la password dell'host. È perfetto per il divertimento, ma non è pensato per dati sensibili. Le chiavi inserite nel codice sono la *anon public key* di Supabase (pensata per essere pubblica) e l'ID prodotto Gumroad: entrambe sono progettate per stare in un client pubblico. Il valore difendibile del progetto — gli incassi del Plus, il conto PayPal e il database — resta nei tuoi account privati, mai nel codice.
 
 ---
 
-Fatto con 🍻 per rendere leggendaria ogni serata tra amici.
+## 📄 Licenza
+
+**Tutti i diritti riservati.** Questo progetto è di proprietà esclusiva di **Giuseppe Valguarnera**. Il codice è pubblicamente visibile solo a scopo di portfolio e dimostrazione: non è concesso copiarlo, riutilizzarlo, modificarlo o ridistribuirlo senza permesso scritto. Vedi il file [LICENSE](./LICENSE) per i dettagli.
+
+---
+
+Fatto con 🍻 da Giuseppe Valguarnera per rendere leggendaria ogni serata tra amici.
