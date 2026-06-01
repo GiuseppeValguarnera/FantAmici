@@ -4,7 +4,6 @@
 
 FantAmici è una web app ispirata al FantaSanremo: crei una squadra di amici, l'host assegna **bonus** e **malus** in base a quanto ognuno si lancia nelle sfide della serata, e due classifiche (giocatori e squadre) decretano chi è il più *accollativo* del gruppo.
 
-🔗 **Demo live:** _aggiungi qui il link dopo il deploy (es. https://fantamici.netlify.app)_
 
 ![Stato](https://img.shields.io/badge/stato-pronto-22B473) ![Licenza](https://img.shields.io/badge/licenza-MIT-FF9F1C)
 
