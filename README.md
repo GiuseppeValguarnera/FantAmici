@@ -80,10 +80,4 @@ FantAmici è pensato per gruppi di amici: la protezione di una lega è il suo co
 
 ---
 
-## 📄 Licenza
-
-Distribuito con licenza MIT. Sentiti libero di usarlo, modificarlo e divertirti.
-
----
-
 Fatto con 🍻 per rendere leggendaria ogni serata tra amici.
