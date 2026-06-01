@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FantAmici · Il fantagioco delle serate tra amici</title>
+<meta name="description" content="FantAmici: trasforma le serate tra amici in un campionato. Crea la tua squadra, assegna bonus e malus, scala le classifiche!" />
+<meta name="theme-color" content="#FF6B5E" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#071A22" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23FF9F1C'/%3E%3Ctext y='.9em' x='50' font-size='62' text-anchor='middle'%3E%F0%9F%8D%BB%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website" />
+<meta property="og:title" content="FantAmici · Il fantagioco delle serate tra amici" />
+<meta property="og:description" content="Crea la tua squadra di amici, assegna bonus e malus e scopri chi è il più accollativo del gruppo!" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FantAmici · Il fantagioco delle serate tra amici" />
+<meta name="twitter:description" content="Crea la tua squadra di amici, assegna bonus e malus e scopri chi è il più accollativo del gruppo!" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#FFC23C; --sun-deep:#FF9F1C;
+  --coral:#FF6B5E; --coral-deep:#F4503F;
+  --aqua:#1FC8C0; --aqua-deep:#0FA39B;
+  --green:#22B473; --green-deep:#159A60;
+  --red:#FF5A6E; --red-deep:#E63950;
+  --plum:#7C5CFF; --plum-deep:#5E3FE6;
+  --ink:#0E3D44;
+  --ink-soft:#3C6168;
+  --sand:#FFF7E9;
+  --sky-1:#FFE39A; --sky-2:#9CE7E0; --sky-3:#FFB9A3;
+  --card:#FFFFFF;
+  --card-2:#FFFBF2;
+  --line:rgba(14,61,68,.10);
+  --shadow:0 14px 30px -16px rgba(14,61,68,.40);
+  --shadow-lg:0 30px 60px -28px rgba(14,61,68,.55);
+  --radius:22px;
+  --radius-sm:14px;
+}
+[data-theme="dark"]{
+  --sun:#FFCF54; --sun-deep:#FFB02E;
+  --coral:#FF7E6B; --coral-deep:#FF6450;
+  --aqua:#3FE0D6; --aqua-deep:#22BDB4;
+  --green:#3FD089; --green-deep:#23B873;
+  --red:#FF6F84; --red-deep:#FF4D67;
+  --plum:#9C82FF; --plum-deep:#7C5CFF;
+  --ink:#EAF7F3;
+  --ink-soft:#9DC3C2;
+  --sand:#071A22;
+  --sky-1:#10323d; --sky-2:#0a2731; --sky-3:#1a3a44;
+  --card:#0F2A33;
+  --card-2:#0C2129;
+  --line:rgba(180,235,230,.12);
+  --shadow:0 18px 36px -18px rgba(0,0,0,.6);
+  --shadow-lg:0 34px 70px -28px rgba(0,0,0,.75);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Nunito',system-ui,sans-serif;
+  color:var(--ink);background:var(--sand);line-height:1.5;
+  overflow-x:hidden;transition:background .4s ease,color .4s ease;
+}
+h1,h2,h3,h4,.fred{font-family:'Fredoka',sans-serif;font-weight:600;line-height:1.05}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit}
+.hidden{display:none !important}
+
+/* HEADER */
+header.top{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(10px);
+  background:color-mix(in srgb,var(--sand) 80%,transparent);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;font-family:'Fredoka';font-weight:700;font-size:1.45rem;letter-spacing:-.5px}
+.brand .logo{width:42px;height:42px;border-radius:13px;flex:0 0 auto;
+  background:radial-gradient(circle at 30% 28%,var(--sun),var(--coral-deep));
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--sun) 28%,transparent),0 8px 18px -6px var(--coral-deep);
+  display:grid;place-items:center;font-size:1.35rem;animation:cheers 3.4s ease-in-out infinite;transform-origin:bottom center}
+@keyframes cheers{0%,100%{transform:rotate(0)}45%{transform:rotate(-9deg)}55%{transform:rotate(9deg)}}
+.brand b{color:var(--coral-deep)}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{padding:8px 12px;border-radius:10px;font-weight:700;font-size:.95rem;color:var(--ink-soft);transition:.2s;cursor:pointer}
+.nav-links a:hover{color:var(--ink);background:var(--line)}
+.theme-btn{width:46px;height:46px;border-radius:14px;flex:0 0 auto;display:grid;place-items:center;font-size:1.25rem;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .25s,background .3s}
+.theme-btn:hover{transform:translateY(-2px) rotate(-8deg)}
+@media(max-width:760px){.nav-links a:not(.cta){display:none}}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:999px;
+  font-weight:800;font-size:1rem;background:var(--ink);color:var(--sand);
+  transition:transform .12s,box-shadow .2s,filter .2s;box-shadow:var(--shadow)}
+.btn:active{transform:translateY(2px) scale(.99)}
+.btn.sun{background:linear-gradient(135deg,var(--sun),var(--sun-deep));color:#3a2400;box-shadow:0 12px 24px -10px var(--sun-deep)}
+.btn.coral{background:linear-gradient(135deg,var(--coral),var(--coral-deep));color:#fff;box-shadow:0 12px 24px -10px var(--coral-deep)}
+.btn.aqua{background:linear-gradient(135deg,var(--aqua),var(--aqua-deep));color:#fff;box-shadow:0 12px 24px -10px var(--aqua-deep)}
+.btn.plum{background:linear-gradient(135deg,var(--plum),var(--plum-deep));color:#fff;box-shadow:0 12px 24px -10px var(--plum-deep)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.btn.lg{padding:16px 30px;font-size:1.08rem}
+.btn.sm{padding:9px 16px;font-size:.9rem}
+.btn:hover{filter:brightness(1.04)}
+.btn.block{width:100%}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:64px 0 90px}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;
+  background:linear-gradient(160deg,var(--sky-1) 0%,var(--sky-2) 55%,var(--sky-3) 100%);opacity:.9}
+.sun-deco{position:absolute;top:-70px;right:-40px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle at 40% 40%,var(--sun),var(--sun-deep));filter:blur(2px);opacity:.85;z-index:0;animation:bob 7s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(18px)}}
+.wave{position:absolute;bottom:-2px;left:0;width:100%;z-index:1;display:block}
+.hero .wrap{position:relative;z-index:2}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+@media(max-width:880px){.hero-grid{grid-template-columns:1fr;text-align:center}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--card);color:var(--coral-deep);
+  font-weight:800;font-size:.82rem;letter-spacing:.5px;text-transform:uppercase;padding:7px 15px;border-radius:999px;box-shadow:var(--shadow);margin-bottom:18px}
+.hero h1{font-size:clamp(2.6rem,6vw,4.4rem);letter-spacing:-1.5px;color:var(--ink)}
+.hero h1 .hl{color:var(--coral-deep);position:relative;white-space:nowrap}
+.hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:14px;background:var(--sun);z-index:-1;border-radius:6px;opacity:.7}
+.hero p.lead{font-size:1.2rem;color:var(--ink-soft);font-weight:600;margin:18px 0 28px;max-width:520px}
+@media(max-width:880px){.hero p.lead{margin-left:auto;margin-right:auto}}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+@media(max-width:880px){.hero-cta{justify-content:center}}
+.hero-card{background:var(--card);border-radius:28px;padding:24px;box-shadow:var(--shadow-lg);border:1px solid var(--line);transform:rotate(2deg);position:relative}
+.hero-card::before{content:"🍻";position:absolute;top:-22px;left:-14px;font-size:2.6rem;transform:rotate(-12deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.2))}
+.mini-team h4{font-size:1.05rem;margin-bottom:4px}
+.mini-team .sub{font-size:.85rem;color:var(--ink-soft);font-weight:700;margin-bottom:14px}
+.mini-row{display:flex;align-items:center;gap:11px;padding:10px;border-radius:14px;background:var(--card-2);margin-bottom:8px}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#fff;flex:0 0 auto;font-size:.95rem}
+.mini-row .nm{font-weight:800;flex:1}
+.pill{font-weight:900;font-size:.8rem;padding:3px 10px;border-radius:999px}
+.pill.up{background:color-mix(in srgb,var(--green) 18%,transparent);color:var(--green-deep)}
+.pill.dn{background:color-mix(in srgb,var(--red) 18%,transparent);color:var(--red-deep)}
+
+/* SECTIONS */
+section{padding:66px 0}
+.sec-head{text-align:center;max-width:680px;margin:0 auto 40px}
+.sec-head .tag{font-weight:900;color:var(--aqua-deep);text-transform:uppercase;letter-spacing:1px;font-size:.82rem}
+.sec-head h2{font-size:clamp(2rem,4.5vw,3rem);letter-spacing:-1px;margin:8px 0 10px}
+.sec-head p{color:var(--ink-soft);font-weight:600;font-size:1.08rem}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:760px){.stats{grid-template-columns:1fr}}
+.stat{background:var(--card);border-radius:var(--radius);padding:30px 26px;box-shadow:var(--shadow);border:1px solid var(--line);position:relative;overflow:hidden;transition:transform .25s}
+.stat:hover{transform:translateY(-6px)}
+.stat .ic{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-size:1.8rem;margin-bottom:16px}
+.stat .num{font-family:'Fredoka';font-weight:700;font-size:3.2rem;line-height:1;letter-spacing:-1px}
+.stat .lbl{font-weight:800;color:var(--ink-soft);margin-top:4px}
+.stat.s1 .ic{background:color-mix(in srgb,var(--coral) 18%,transparent);color:var(--coral-deep)} .stat.s1 .num{color:var(--coral-deep)}
+.stat.s2 .ic{background:color-mix(in srgb,var(--aqua) 18%,transparent);color:var(--aqua-deep)} .stat.s2 .num{color:var(--aqua-deep)}
+.stat.s3 .ic{background:color-mix(in srgb,var(--sun) 22%,transparent);color:var(--sun-deep)} .stat.s3 .num{color:var(--sun-deep)}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:880px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.steps{grid-template-columns:1fr}}
+.step{background:var(--card);border-radius:var(--radius);padding:26px 22px;box-shadow:var(--shadow);border:1px solid var(--line);position:relative}
+.step .n{position:absolute;top:-16px;right:18px;font-family:'Fredoka';font-weight:700;font-size:2.4rem;color:var(--line)}
+.step .e{font-size:2.1rem}
+.step h3{margin:12px 0 6px;font-size:1.25rem}
+.step p{color:var(--ink-soft);font-weight:600;font-size:.96rem}
+
+.rules-toggle{display:flex;justify-content:center;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.chip-tab{padding:10px 20px;border-radius:999px;font-weight:800;background:var(--card);border:1.5px solid var(--line);transition:.2s}
+.chip-tab.active{background:var(--ink);color:var(--sand);border-color:var(--ink)}
+.rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:880px){.rules-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.rules-grid{grid-template-columns:1fr}}
+.rule{display:flex;align-items:flex-start;gap:13px;background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.rule .re{font-size:1.5rem;flex:0 0 auto}
+.rule .rt{flex:1;font-weight:700;font-size:.94rem;line-height:1.25}
+.rule .rt small{display:block;font-weight:700;color:var(--ink-soft);font-size:.78rem;margin-top:3px}
+.rule .rp{font-family:'Fredoka';font-weight:700;font-size:1.1rem;flex:0 0 auto}
+.rule.bonus{border-left:5px solid var(--green)} .rule.bonus .rp{color:var(--green-deep)}
+.rule.malus{border-left:5px solid var(--red)} .rule.malus .rp{color:var(--red-deep)}
+
+/* APP / PANELS */
+.panel-bg{background:linear-gradient(180deg,var(--card-2),var(--sand))}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--line);padding:28px}
+.card + .card{margin-top:20px}
+.center-narrow{max-width:520px;margin:0 auto}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:800;font-size:.9rem;margin-bottom:7px;color:var(--ink)}
+.field input,.field select{width:100%;padding:13px 15px;border-radius:13px;border:1.5px solid var(--line);
+  background:var(--card-2);color:var(--ink);font-family:inherit;font-weight:700;font-size:1rem;transition:.2s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--aqua);box-shadow:0 0 0 4px color-mix(in srgb,var(--aqua) 22%,transparent)}
+.hint{font-size:.85rem;color:var(--ink-soft);font-weight:600;margin-top:6px}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1;min-width:70px;padding:12px;border-radius:12px;font-weight:800;background:var(--card-2);border:1.5px solid var(--line);color:var(--ink);transition:.2s}
+.seg button.on{background:var(--ink);color:var(--sand);border-color:var(--ink)}
+
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.page-head h2{font-size:2.1rem;letter-spacing:-.8px}
+.page-head .sub{color:var(--ink-soft);font-weight:700;margin-top:4px}
+
+.code-box{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--aqua),var(--aqua-deep));color:#fff;border-radius:18px;padding:18px 22px;flex-wrap:wrap}
+.code-box .code{font-family:'Fredoka';font-weight:700;font-size:2rem;letter-spacing:4px}
+.code-box .lbl{font-weight:800;opacity:.9;font-size:.85rem;text-transform:uppercase;letter-spacing:1px}
+
+.tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.tab{padding:11px 18px;border-radius:12px 12px 0 0;font-weight:800;color:var(--ink-soft);position:relative;top:2px;border:2px solid transparent;border-bottom:none}
+.tab.active{color:var(--ink);background:var(--card);border-color:var(--line);box-shadow:0 -6px 14px -10px rgba(0,0,0,.25)}
+
+.friend-row{display:flex;align-items:center;gap:13px;padding:13px;border-radius:15px;background:var(--card-2);border:1px solid var(--line);margin-bottom:10px;flex-wrap:wrap}
+.friend-row .nm{font-weight:800;flex:1;min-width:120px}
+.rating-stars{display:inline-flex;gap:3px}
+.rating-stars .s{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:900;background:var(--card);border:1.5px solid var(--line);font-size:.85rem;transition:.15s;cursor:pointer}
+.rating-stars .s.on{background:linear-gradient(135deg,var(--sun),var(--sun-deep));color:#3a2400;border-color:transparent;transform:scale(1.05)}
+.rating-stars.read .s{cursor:default}
+
+.draft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:560px){.draft-grid{grid-template-columns:1fr}}
+.draft-card{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:var(--card-2);border:2px solid var(--line);cursor:pointer;transition:.18s;position:relative}
+.draft-card:hover{border-color:var(--aqua)}
+.draft-card.picked{border-color:var(--green);background:color-mix(in srgb,var(--green) 12%,var(--card-2))}
+.draft-card.disabled{opacity:.4;cursor:not-allowed;filter:grayscale(.6)}
+.draft-card .nm{font-weight:800;flex:1}
+.draft-card .cost{font-family:'Fredoka';font-weight:700;color:var(--sun-deep)}
+.draft-card .check{position:absolute;top:8px;right:10px;font-size:1.1rem;opacity:0;transition:.2s}
+.draft-card.picked .check{opacity:1}
+
+.budget-bar{position:sticky;bottom:14px;background:var(--ink);color:var(--sand);border-radius:18px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:var(--shadow-lg);margin-top:18px;flex-wrap:wrap}
+.budget-bar .meter{flex:1;min-width:140px;height:10px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden}
+.budget-bar .meter i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--sun));transition:width .3s}
+.budget-bar.over .meter i{background:linear-gradient(90deg,var(--red),var(--coral))}
+.budget-bar b{font-family:'Fredoka';font-weight:700;font-size:1.15rem}
+
+.lb{display:grid;gap:9px}
+.lb-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:var(--card-2);border:1px solid var(--line);transition:.2s}
+.lb-row:hover{transform:translateX(4px)}
+.lb-row .rank{font-family:'Fredoka';font-weight:700;font-size:1.4rem;width:40px;text-align:center;color:var(--ink-soft)}
+.lb-row.r1{background:linear-gradient(135deg,color-mix(in srgb,var(--sun) 26%,var(--card)),var(--card));border-color:var(--sun)} .lb-row.r1 .rank{color:var(--sun-deep)}
+.lb-row.r2{background:linear-gradient(135deg,color-mix(in srgb,var(--aqua) 18%,var(--card)),var(--card))}
+.lb-row.r3{background:linear-gradient(135deg,color-mix(in srgb,var(--coral) 16%,var(--card)),var(--card))}
+.lb-row .who{flex:1}
+.lb-row .who .n{font-weight:900;font-size:1.05rem}
+.lb-row .who .m{font-size:.82rem;color:var(--ink-soft);font-weight:700}
+.lb-row .pts{font-family:'Fredoka';font-weight:700;font-size:1.5rem}
+.lb-row .pts.pos{color:var(--green-deep)} .lb-row .pts.neg{color:var(--red-deep)}
+
+.empty{text-align:center;padding:40px 20px;color:var(--ink-soft);font-weight:700}
+.empty .e{font-size:3rem;display:block;margin-bottom:10px}
+
+.assign-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.assign-grid{grid-template-columns:1fr}}
+.event-log{max-height:340px;overflow:auto;display:grid;gap:8px;margin-top:8px}
+.ev{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:13px;background:var(--card-2);border:1px solid var(--line);font-weight:700;font-size:.92rem}
+.ev .ep{font-family:'Fredoka';font-weight:700;margin-left:auto}
+.ev .ep.pos{color:var(--green-deep)} .ev .ep.neg{color:var(--red-deep)}
+.ev .del{color:var(--red-deep);font-weight:900;cursor:pointer;padding:0 6px}
+.ev .nt{font-size:.76rem;color:var(--ink-soft);font-weight:800}
+
+.notice{padding:13px 16px;border-radius:13px;font-weight:800;margin-bottom:14px}
+.notice.err{background:color-mix(in srgb,var(--red) 16%,transparent);color:var(--red-deep)}
+.notice.ok{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green-deep)}
+.notice.info{background:color-mix(in srgb,var(--aqua) 16%,transparent);color:var(--aqua-deep)}
+
+/* PLUS / monetization */
+.plus-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,var(--plum),var(--plum-deep));color:#fff;font-weight:900;font-size:.72rem;padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+.upsell{background:linear-gradient(135deg,var(--plum),var(--plum-deep));color:#fff;border:none;text-align:center}
+.upsell h3{font-size:1.6rem;margin-bottom:8px}
+.upsell .price{font-family:'Fredoka';font-weight:700;font-size:2.2rem;margin:6px 0}
+.upsell ul{list-style:none;text-align:left;max-width:340px;margin:14px auto 20px;display:grid;gap:8px}
+.upsell li{font-weight:700;display:flex;gap:8px;align-items:flex-start}
+.money-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.money-grid{grid-template-columns:1fr}}
+.money-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--line);padding:28px;text-align:center}
+.money-card .e{font-size:2.4rem}
+.money-card h3{margin:10px 0 6px;font-size:1.4rem}
+.money-card p{color:var(--ink-soft);font-weight:600;margin-bottom:18px}
+
+footer{padding:50px 0 60px;text-align:center;color:var(--ink-soft);font-weight:700;border-top:1px solid var(--line)}
+footer .brand{justify-content:center;margin-bottom:12px}
+footer .mail{color:var(--aqua-deep);font-weight:900}
+
+/* clickable leaderboard rows */
+.lb-row.clickable{cursor:pointer}
+.lb-row .chev{font-family:'Fredoka';font-weight:700;font-size:1.5rem;color:var(--ink-soft);opacity:.5;transition:.2s}
+.lb-row.clickable:hover .chev{opacity:1;transform:translateX(3px)}
+
+/* modal */
+#modal{position:fixed;inset:0;z-index:150;display:none;align-items:flex-end;justify-content:center;
+  background:color-mix(in srgb,var(--ink) 55%,transparent);backdrop-filter:blur(4px);padding:0}
+#modal.show{display:flex;animation:fade .25s ease}
+#modal .sheet{background:var(--card);width:100%;max-width:560px;border-radius:24px 24px 0 0;padding:26px;
+  max-height:88vh;overflow:auto;box-shadow:var(--shadow-lg);position:relative;animation:slideup .3s cubic-bezier(.2,.9,.3,1)}
+@media(min-width:600px){#modal{align-items:center;padding:20px}#modal .sheet{border-radius:24px}}
+@keyframes slideup{from{transform:translateY(40px);opacity:.5}to{transform:none;opacity:1}}
+.modal-x{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:12px;background:var(--card-2);
+  border:1px solid var(--line);font-weight:900;color:var(--ink-soft);font-size:1rem;display:grid;place-items:center}
+.modal-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-right:40px}
+.modal-head .big-pts{margin-left:auto;font-family:'Fredoka';font-weight:700;font-size:2rem}
+.modal-head .big-pts.pos{color:var(--green-deep)} .modal-head .big-pts.neg{color:var(--red-deep)}
+.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.mini-stats>div{background:var(--card-2);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.mini-stats b{font-family:'Fredoka';font-weight:700;font-size:1.5rem;display:block}
+.mini-stats span{font-size:.78rem;font-weight:800;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.5px}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:880px){.reviews{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.reviews{grid-template-columns:1fr}}
+.review-card{background:var(--card);border-radius:18px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.rv-top{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.rv-name{font-weight:900}
+.rv-stars{color:var(--sun-deep);font-size:.95rem;letter-spacing:1px}
+.rv-stars .off{color:var(--line)}
+.rv-text{font-weight:600;color:var(--ink-soft);font-size:.95rem;line-height:1.4}
+.star-pick{display:flex;gap:6px;font-size:1.8rem;cursor:pointer;padding:6px 0}
+.star-pick .sp{color:var(--line);transition:.15s;line-height:1}
+.star-pick .sp:hover,.star-pick .sp.on{color:var(--sun-deep);transform:scale(1.08)}
+
+/* live realtime indicator */
+.live-dot{display:inline-flex;align-items:center;gap:5px;font-weight:900;font-size:.68rem;color:var(--red-deep);text-transform:uppercase;letter-spacing:.6px;vertical-align:middle}
+.live-dot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);animation:livepulse 2s infinite}
+@keyframes livepulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--red) 65%,transparent)}70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.live-flash{animation:liveflash .8s ease}
+@keyframes liveflash{0%{transform:scale(1)}30%{transform:scale(1.22)}100%{transform:scale(1)}}
+
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--sand);padding:14px 24px;border-radius:999px;font-weight:800;box-shadow:var(--shadow-lg);z-index:200;transition:transform .35s cubic-bezier(.2,1.2,.3,1);max-width:90vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+.fade-in{animation:fade .5s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(20px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap nav">
+    <div class="brand" onclick="go('home')">
+      <div class="logo">🍻</div>
+      <span>Fant<b>Amici</b></span>
+    </div>
+    <nav class="nav-links">
+      <a onclick="go('home')">Home</a>
+      <a onclick="go('home');setTimeout(()=>scrollToId('regole'),60)">Regole</a>
+      <a onclick="go('home');setTimeout(()=>scrollToId('recensioni'),60)">Recensioni</a>
+      <a onclick="go('join')">Entra con codice</a>
+      <a class="cta btn coral sm" onclick="go('host')">Sono l'host 🎪</a>
+      <button class="theme-btn" id="themeBtn" title="Cambia tema" onclick="toggleTheme()">🌙</button>
+    </nav>
+  </div>
+</header>
+
+<main id="app"></main>
+<div id="toast"></div>
+
+<script>
+/* =========================================================
+   FANTAMICI · logica completa (dati salvati nel browser)
+   ========================================================= */
+
+/* =========================================================
+   >>> CONFIGURAZIONE · sostituisci con i tuoi dati reali <<<
+   (vedi SETUP.md per la guida passo-passo)
+   ========================================================= */
+const PAYPAL_URL    = "https://www.paypal.com/paypalme/iltuonome";   // il tuo link PayPal.me
+const CONTACT_EMAIL = "collaborazioni@fantamici.it";                  // la tua mail
+const PLUS_PRICE    = "4,99 €";
+
+/* --- DATABASE online (Supabase). Lascia vuoto per modalità solo-locale. --- */
+const SUPABASE_URL      = "";   // es. "https://xxxx.supabase.co"
+const SUPABASE_ANON_KEY = "";   // la "anon public key" del progetto
+const CLOUD = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+
+/* --- Plus: verifica pagamento tramite licenza Gumroad. Vuoto = modalità demo. --- */
+const GUMROAD_PRODUCT_ID = "";  // l'ID prodotto Gumroad del "FantAmici Plus"
+
+/* ---------- REGOLE: 20 bonus + 20 malus (situazionali) ---------- */
+const RULES = [
+  // ---- BONUS (20) ----
+  {id:'b1',  type:'bonus', e:'💋', t:'Riesce a rimorchiare', p:15},
+  {id:'b2',  type:'bonus', e:'📱', t:'Si fa dare il numero da uno/a sconosciuto/a', p:10},
+  {id:'b3',  type:'bonus', e:'👏', t:'Fa partire un applauso di tutto il locale', p:12},
+  {id:'b4',  type:'bonus', e:'💃', t:'Balla con uno sconosciuto esterno al gruppo', p:10},
+  {id:'b5',  type:'bonus', e:'🌅', t:'Va via per ultimo', p:10},
+  {id:'b6',  type:'bonus', e:'🚗', t:'Fa da guidatore designato e riporta tutti a casa', p:10},
+  {id:'b7',  type:'bonus', e:'🗣️', t:'Convince uno sconosciuto a unirsi al gruppo', p:9},
+  {id:'b8',  type:'bonus', e:'🍻', t:'Offre da bere/mangiare al gruppo', p:8, note:'Valido solo se ci sono almeno 3 persone oltre a lui/lei', confirm:'C\'erano almeno 3 persone oltre a chi offre? Solo così il bonus è valido.'},
+  {id:'b9',  type:'bonus', e:'🎯', t:'Accetta una sfida del gruppo senza esitare', p:8},
+  {id:'b10', type:'bonus', e:'🪑', t:'Trova posto e lo tiene per qualcuno del gruppo', p:8},
+  {id:'b11', type:'bonus', e:'🎤', t:'Lancia il primo karaoke o coro della serata', p:7},
+  {id:'b12', type:'bonus', e:'🧢', t:'Rispetta il dress code assurdo deciso dal gruppo', p:7, note:'A tema'},
+  {id:'b13', type:'bonus', e:'🕺', t:'È il primo a scatenarsi in pista', p:6},
+  {id:'b14', type:'bonus', e:'🎨', t:'Indossa un accessorio del colore scelto dal gruppo', p:6, note:'A tema'},
+  {id:'b15', type:'bonus', e:'💪', t:'Accetta una scommessa fisica (flessioni, tuffo, ecc.)', p:6},
+  {id:'b16', type:'bonus', e:'🥂', t:'Fa partire un brindisi', p:5, note:'Una volta a serata'},
+  {id:'b17', type:'bonus', e:'🥳', t:'Il suo brindisi coinvolge anche sconosciuti del locale', p:10},
+  {id:'b18', type:'bonus', e:'🏆', t:'Vince un gioco o una sfida della serata', p:5},
+  {id:'b19', type:'bonus', e:'🧑‍🍳', t:'Fa amicizia con lo staff del locale', p:4},
+  {id:'b20', type:'bonus', e:'😂', t:'Fa ridere tutto il gruppo con una battuta', p:4},
+  // ---- MALUS (20) ----
+  {id:'m1',  type:'malus', e:'👻', t:'Fa il bidone e annulla all\'ultimo', p:-20},
+  {id:'m2',  type:'malus', e:'💢', t:'Litiga con un altro membro del gruppo', p:-20, note:'A ogni persona coinvolta nel litigio'},
+  {id:'m3',  type:'malus', e:'⏰', t:'Arriva con un\'ora di ritardo', p:-15, note:'Salvo lavoro o scusa validissima'},
+  {id:'m4',  type:'malus', e:'📱', t:'Sta troppo al telefono o si aliena dal gruppo', p:-15},
+  {id:'m5',  type:'malus', e:'😴', t:'Si addormenta prima di mezzanotte', p:-10},
+  {id:'m6',  type:'malus', e:'🤬', t:'Litiga con qualcuno esterno al gruppo', p:-10},
+  {id:'m7',  type:'malus', e:'🚪', t:'Sparisce senza salutare', p:-10},
+  {id:'m8',  type:'malus', e:'🥴', t:'Esagera col bere e va gestito dagli altri', p:-9},
+  {id:'m9',  type:'malus', e:'🤕', t:'Cade e lo vede tutto il locale', p:-8},
+  {id:'m10', type:'malus', e:'😬', t:'Fa una pessima figura con uno sconosciuto', p:-8},
+  {id:'m11', type:'malus', e:'🥤', t:'Fa cadere una bibita e bagna qualcuno', p:-7},
+  {id:'m12', type:'malus', e:'🚫', t:'Non partecipa al brindisi', p:-7},
+  {id:'m13', type:'malus', e:'💔', t:'Parla solo dell\'ex tutta la sera', p:-6},
+  {id:'m14', type:'malus', e:'😩', t:'Fa la lagna tutta la serata', p:-6},
+  {id:'m15', type:'malus', e:'🙅', t:'Rifiuta ogni sfida proposta dal gruppo', p:-6},
+  {id:'m16', type:'malus', e:'⏰', t:'Arriva con mezz\'ora di ritardo', p:-5, note:'Salvo lavoro o scusa validissima'},
+  {id:'m17', type:'malus', e:'🏃', t:'Va via prima di tutti', p:-5},
+  {id:'m18', type:'malus', e:'💼', t:'Parla di lavoro tutta la sera', p:-5},
+  {id:'m19', type:'malus', e:'🤳', t:'Passa la serata a fare storie/reel invece di viverla', p:-5},
+  {id:'m20', type:'malus', e:'🍺', t:'Resta incollato al bancone senza socializzare', p:-4},
+];
+
+const AVATAR_COLORS = ['#FF6B5E','#1FC8C0','#FF9F1C','#22B473','#7C5CFF','#FF5A6E','#0FA39B','#FFB02E'];
+const initials = n => n.trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const avColor = n => AVATAR_COLORS[(n.charCodeAt(0)||0)%AVATAR_COLORS.length];
+const todayStr = () => new Date().toISOString().slice(0,10);
+const fmtDate = s => {try{const [y,m,d]=s.split('-');return `${d}/${m}`;}catch(e){return s;}};
+
+/* ---------- STORAGE ---------- */
+const DB_KEY='fantamici_v2';
+function loadDB(){ try{return JSON.parse(localStorage.getItem(DB_KEY))||{leagues:{},reviews:[],feedback:[]}}catch(e){return {leagues:{},reviews:[],feedback:[]}} }
+function saveDB(db){ localStorage.setItem(DB_KEY,JSON.stringify(db)); }
+let DB = loadDB();
+if(!DB.reviews)DB.reviews=[]; if(!DB.feedback)DB.feedback=[];
+let session = {leagueCode:null, role:null, hostAuth:false, myFriendId:null};
+
+/* ---------- CLOUD (Supabase REST · attivo solo se configurato) ---------- */
+async function sb(path,opts={}){
+  const res=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{
+    ...opts,
+    headers:{'apikey':SUPABASE_ANON_KEY,'Authorization':`Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type':'application/json','Prefer':opts.prefer||'return=representation',...(opts.headers||{})}
+  });
+  if(!res.ok)throw new Error('Supabase '+res.status+' '+(await res.text()));
+  const txt=await res.text(); return txt?JSON.parse(txt):null;
+}
+async function cloudGetLeague(code){
+  const rows=await sb(`leagues?code=eq.${encodeURIComponent(code)}&select=data`);
+  return rows&&rows[0]?rows[0].data:null;
+}
+async function cloudSaveLeague(code,data){
+  await sb(`leagues?on_conflict=code`,{method:'POST',
+    prefer:'resolution=merge-duplicates,return=minimal',
+    body:JSON.stringify({code,data,updated_at:new Date().toISOString()})});
+}
+async function cloudListReviews(){ return await sb(`reviews?select=*&order=created_at.desc&limit=50`); }
+async function cloudAddReview(r){ await sb(`reviews`,{method:'POST',prefer:'return=minimal',body:JSON.stringify(r)}); }
+async function cloudAddFeedback(f){ await sb(`feedback`,{method:'POST',prefer:'return=minimal',body:JSON.stringify(f)}); }
+
+/* salva in locale e, se il cloud è attivo, sincronizza la lega corrente */
+function persist(){
+  saveDB(DB);
+  if(CLOUD && session.leagueCode && DB.leagues[session.leagueCode]){
+    cloudSaveLeague(session.leagueCode, DB.leagues[session.leagueCode]).catch(err=>{
+      console.warn('Sync fallita:',err); toast('⚠️ Sincronizzazione non riuscita, riprova.');
+    });
+  }
+}
+
+/* ---------- REALTIME (Supabase Realtime via WebSocket, fallback a polling) ---------- */
+let _rtClient=null, _rtChannels=[], _rtPolls=[], _liveCode=null, _liveOnChange=null;
+async function rtClient(){
+  if(_rtClient) return _rtClient;
+  const mod=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+  _rtClient=mod.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{realtime:{params:{eventsPerSecond:5}}});
+  return _rtClient;
+}
+function rtStopAll(){
+  _rtChannels.forEach(ch=>{try{_rtClient&&_rtClient.removeChannel(ch);}catch(e){}});
+  _rtChannels=[];
+  _rtPolls.forEach(p=>clearInterval(p)); _rtPolls=[];
+  _liveCode=null; _liveOnChange=null;
+}
+function _applyLeague(code,data,onChange){
+  if(!data) return;
+  if(JSON.stringify(DB.leagues[code]||null)===JSON.stringify(data)) return; // nessun cambiamento reale
+  DB.leagues[code]=data; saveDB(DB); onChange(data);
+}
+async function rtLeague(code,onChange){
+  if(!CLOUD) return;
+  _liveCode=code; _liveOnChange=onChange;
+  try{
+    const c=await rtClient();
+    const ch=c.channel('lega-'+code)
+      .on('postgres_changes',{event:'*',schema:'public',table:'leagues',filter:'code=eq.'+code},
+        p=>_applyLeague(code, p.new&&p.new.data, onChange))
+      .subscribe(st=>{ if(st==='CHANNEL_ERROR'||st==='TIMED_OUT') rtPollLeague(code,onChange,5000); });
+    _rtChannels.push(ch);
+    rtPollLeague(code,onChange,20000); // rete di sicurezza lenta anche col realtime attivo
+  }catch(e){ rtPollLeague(code,onChange,5000); }
+}
+function rtPollLeague(code,onChange,every){
+  if(_rtPolls.length) return; // già attivo
+  const id=setInterval(async()=>{
+    if(document.hidden) return; // niente richieste a scheda nascosta
+    try{ const d=await cloudGetLeague(code); _applyLeague(code,d,onChange); }catch(e){}
+  }, every||5000);
+  _rtPolls.push(id);
+}
+/* quando si torna sulla scheda, allinea subito i dati */
+document.addEventListener('visibilitychange',async()=>{
+  if(document.hidden||!CLOUD||!_liveCode)return;
+  try{ const d=await cloudGetLeague(_liveCode); _applyLeague(_liveCode,d,_liveOnChange||(()=>{})); }catch(e){}
+});
+async function rtReviews(onChange){
+  if(!CLOUD) return;
+  try{
+    const c=await rtClient();
+    const ch=c.channel('reviews-live')
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'reviews'},()=>onChange())
+      .subscribe();
+    _rtChannels.push(ch);
+  }catch(e){ /* le recensioni non sono critiche, niente fallback */ }
+}
+function flashLive(){
+  document.querySelectorAll('.live-dot').forEach(el=>{el.classList.remove('live-flash');void el.offsetWidth;el.classList.add('live-flash');});
+}
+
+/* ---------- UTIL ---------- */
+function genCode(){
+  const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let c=''; for(let i=0;i<6;i++)c+=a[Math.floor(Math.random()*a.length)];
+  return DB.leagues[c]?genCode():c;
+}
+function uid(){return Math.random().toString(36).slice(2,10)}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2800);}
+function scrollToId(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});}
+function escape(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function allRules(lg){return RULES.concat(lg.customRules||[]);}
+function getRule(lg,id){return allRules(lg).find(r=>r.id===id);}
+function friendPoints(league,fid){return league.events.filter(e=>e.friendId===fid).reduce((s,e)=>s+e.p,0);}
+function teamPoints(league,team){return team.friendIds.reduce((s,fid)=>s+friendPoints(league,fid),0);}
+function friendName(league,fid){const f=league.friends.find(x=>x.id===fid);return f?f.name:'?';}
+
+/* ---------- THEME ---------- */
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('themeBtn').textContent = t==='dark'?'☀️':'🌙';
+  localStorage.setItem('fantamici_theme',t);
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+applyTheme(localStorage.getItem('fantamici_theme')|| (matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));
+
+/* =========================================================
+   ROUTER · URL reali, condivisibili (History API + fallback hash)
+   ========================================================= */
+const VIEWS={home:viewHome,host:viewHost,dash:viewDash,join:viewJoin,team:viewTeam,league:viewLeague,notfound:viewNotFound};
+// usa URL puliti se l'ambiente lo consente, altrimenti hash (#/...) per file:// e anteprime
+const USE_HISTORY=(()=>{ try{ return location.protocol==='http:'||location.protocol==='https:'; }catch(e){ return false; } })();
+
+function pathFor(view,opt){
+  const c=(opt&&opt.code)?opt.code:((session&&session.leagueCode)?session.leagueCode:null);
+  switch(view){
+    case 'home':   return '/';
+    case 'host':   return '/host';
+    case 'join':   return c?('/join/'+c):'/join';
+    case 'league': return '/lega/'+c;
+    case 'team':   return '/lega/'+c+'/squadra';
+    case 'dash':   return '/lega/'+c+'/admin';
+    default:       return '/';
+  }
+}
+function parsePath(){
+  let p;
+  if(USE_HISTORY){ p=location.pathname; }
+  else { p=(location.hash||'#/').replace(/^#/,''); }
+  p=p.replace(/\/+$/,'')||'/';
+  const seg=p.split('/').filter(Boolean); // es. ['lega','ABC123','admin']
+  if(seg.length===0) return {view:'home'};
+  if(seg[0]==='host') return {view:'host'};
+  if(seg[0]==='join') return {view:'join', opt:{code:(seg[1]||'').toUpperCase()}};
+  if(seg[0]==='lega' && seg[1]){
+    const code=seg[1].toUpperCase();
+    if(seg[2]==='squadra') return {view:'team', opt:{code}};
+    if(seg[2]==='admin')   return {view:'dash', opt:{code}};
+    return {view:'league', opt:{code}};
+  }
+  return {view:'notfound'};
+}
+function urlFor(view,opt){
+  const path=pathFor(view,opt);
+  return USE_HISTORY?path:('#'+path);
+}
+function shareLink(code){
+  const base=location.origin+(USE_HISTORY?'':location.pathname);
+  return base+(USE_HISTORY?'':'#')+'/lega/'+code;
+}
+
+let _navLock=false;
+// go() spinge il nuovo URL e poi disegna; resta compatibile con tutte le chiamate esistenti
+function go(view,opt,replace){
+  const target=urlFor(view,opt);
+  try{
+    if(USE_HISTORY){ history[replace?'replaceState':'pushState']({view,opt},'',target); }
+    else { if(replace)location.replace(target); else if(location.hash!==target)location.hash=target;
+           else renderView(view,opt); return; }
+  }catch(e){ /* ambienti sandbox: ignora, disegna comunque */ }
+  renderView(view,opt);
+}
+
+async function renderView(view,opt){
+  const app=document.getElementById('app');
+  window.scrollTo({top:0});
+  rtStopAll(); // chiudi le sottoscrizioni realtime della schermata precedente
+  // risolvi il codice dalla sessione se mancante (es. go('dash') interno)
+  if((view==='league'||view==='team'||view==='dash') && (!opt||!opt.code) && session.leagueCode){
+    opt={...(opt||{}),code:session.leagueCode};
+  }
+  // assicura che la lega sia disponibile (anche aprendo un link diretto col cloud attivo)
+  if((view==='league'||view==='team'||view==='dash') && opt&&opt.code){
+    if(!DB.leagues[opt.code] && CLOUD){
+      app.innerHTML=loaderHTML('Carico la lega…');
+      try{ const data=await cloudGetLeague(opt.code); if(data){DB.leagues[opt.code]=data;saveDB(DB);} }catch(e){}
+    }
+    if(!DB.leagues[opt.code]){ // non trovata
+      if(view==='dash'){ return renderView('host'); }
+      app.innerHTML=''; return viewNotFound(app,{msg:'Lega "'+escape(opt.code)+'" non trovata.'});
+    }
+    // l'area admin richiede sessione host valida: se assente, manda al login
+    if(view==='dash' && !(session.hostAuth && session.leagueCode===opt.code)){
+      return go('host',null,true);
+    }
+    session.leagueCode=opt.code;
+  }
+  app.innerHTML='';
+  (VIEWS[view]||viewHome)(app,opt);
+  app.firstElementChild&&app.firstElementChild.classList.add('fade-in');
+  initReveal();
+  // attiva il realtime per la schermata corrente
+  if(CLOUD){
+    if(view==='league' && opt&&opt.code){
+      rtLeague(opt.code, ()=>{ if(parsePath().view==='league'){ viewLeague(app,{code:opt.code}); initReveal(); flashLive(); } });
+    } else if(view==='dash' && opt&&opt.code){
+      rtLeague(opt.code, ()=>{ if(parsePath().view==='dash'){ refreshDashLive(); flashLive(); } });
+    } else if(view==='home'){
+      rtReviews(()=>loadReviews());
+    }
+  }
+}
+function loaderHTML(t){return `<section class="panel-bg" style="min-height:calc(100vh - 68px);display:grid;place-items:center"><div class="empty"><span class="e" style="animation:cheers 1.2s ease-in-out infinite;display:inline-block">🍻</span>${escape(t)}</div></section>`;}
+
+function renderFromURL(){ const {view,opt}=parsePath(); renderView(view,opt); }
+window.addEventListener('popstate', renderFromURL);
+if(!USE_HISTORY) window.addEventListener('hashchange', renderFromURL);
+
+/* 404 */
+function viewNotFound(app,opt){
+  app.innerHTML=`<section class="panel-bg" style="min-height:calc(100vh - 68px);display:grid;place-items:center">
+    <div class="card" style="text-align:center;max-width:460px">
+      <div style="font-size:3.4rem">🏝️</div>
+      <h2 style="font-size:1.8rem;margin:8px 0">Pagina non trovata</h2>
+      <p class="hint" style="margin-bottom:18px">${escape(opt&&opt.msg?opt.msg:'Questo angolo del villaggio non esiste.')}</p>
+      <button class="btn coral" onclick="go('home')">← Torna alla home</button>
+    </div>
+  </section>`;
+}
+
+/* =========================================================
+   HOME
+   ========================================================= */
+function globalStats(){
+  const leagues=Object.values(DB.leagues);
+  const teams=leagues.reduce((s,l)=>s+l.teams.length,0);
+  const champ=leagues.filter(l=>l.status==='running'||l.status==='ended').length;
+  return {leagues:leagues.length, teams, champ};
+}
+function viewHome(app){
+  const st=globalStats();
+  app.innerHTML=`
+  <section class="hero">
+    <div class="sun-deco"></div>
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">🍹 Il fantagioco delle serate tra amici</span>
+          <h1>Trasforma ogni serata in un <span class="hl">campionato</span>.</h1>
+          <p class="lead">Crea la tua squadra di amici, assegna <b>bonus</b> e <b>malus</b> in base a quanto si lanciano nelle sfide, e scopri chi è il più <i>accollativo</i> del gruppo. Pronti, partenza... festa!</p>
+          <div class="hero-cta">
+            <button class="btn coral lg" onclick="go('host')">🎪 Crea una lega</button>
+            <button class="btn ghost lg" onclick="go('join')">🎟️ Entra con un codice</button>
+          </div>
+        </div>
+        <div>
+          <div class="hero-card">
+            <div class="mini-team">
+              <h4>Squadra "I Senza Filtro"</h4>
+              <div class="sub">Classifica live · serata di ieri</div>
+              ${[['Giulia',32,'up'],['Marco',18,'up'],['Sara',-9,'dn'],['Teo',24,'up'],['Bea',6,'up']]
+                .map(([n,p,d])=>`<div class="mini-row"><div class="av" style="background:${avColor(n)}">${initials(n)}</div><div class="nm">${n}</div><div class="pill ${d}">${p>0?'+':''}${p}</div></div>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none"><path fill="var(--sand)" d="M0,40 C240,90 480,0 720,30 C960,60 1200,90 1440,40 L1440,90 L0,90 Z"></path></svg>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="tag">A che punto siamo</span><h2>FantAmici in numeri</h2><p>Tutto quello che è già stato creato nel villaggio del divertimento.</p></div>
+      <div class="stats">
+        <div class="stat s1 reveal"><div class="ic">🎪</div><div class="num" data-count="${st.leagues}">0</div><div class="lbl">Leghe create</div></div>
+        <div class="stat s2 reveal"><div class="ic">👯</div><div class="num" data-count="${st.teams}">0</div><div class="lbl">Squadre formate</div></div>
+        <div class="stat s3 reveal"><div class="ic">🏆</div><div class="num" data-count="${st.champ}">0</div><div class="lbl">Campionati avviati</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel-bg">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="tag">Come si gioca</span><h2>Quattro passi e via</h2><p>Semplice come ordinare un cocktail in spiaggia.</p></div>
+      <div class="steps">
+        <div class="step reveal"><div class="n">1</div><div class="e">🎪</div><h3>Crea la lega</h3><p>L'host registra gli amici e dà a ognuno un punteggio da 1 a 4 in base a quanto è "accollativo".</p></div>
+        <div class="step reveal"><div class="n">2</div><div class="e">🎟️</div><h3>Entra col codice</h3><p>Ogni giocatore entra, sceglie il proprio personaggio e compone la squadra di 5 amici (max 12 punti, mai sé stesso).</p></div>
+        <div class="step reveal"><div class="n">3</div><div class="e">🎉</div><h3>Vivete le serate</h3><p>Durante il campionato (1–3 mesi) si collezionano bonus e malus sul campo... cioè in discoteca.</p></div>
+        <div class="step reveal"><div class="n">4</div><div class="e">🏅</div><h3>Vince chi se la gode</h3><p>Due classifiche: il singolo più scatenato e la squadra con più punti totali.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="regole">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="tag">Il regolamento</span><h2>Bonus & Malus</h2><p>20 bonus e 20 malus da serata vera per fare punti... o per affondare. Ogni bonus vale una sola volta a serata!</p></div>
+      <div class="rules-toggle">
+        <button class="chip-tab active" data-f="all" onclick="filterRules('all',this)">Tutti</button>
+        <button class="chip-tab" data-f="bonus" onclick="filterRules('bonus',this)">😇 Bonus</button>
+        <button class="chip-tab" data-f="malus" onclick="filterRules('malus',this)">😈 Malus</button>
+      </div>
+      <div class="rules-grid" id="rulesGrid">${rulesHTML('all',{customRules:[]})}</div>
+    </div>
+  </section>
+
+  <section class="panel-bg" id="supporta">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="tag">Sostieni il progetto</span><h2>FantAmici cresce con te</h2><p>Un'idea nata tra amici, mantenuta a colpi di caffè.</p></div>
+      <div class="money-grid">
+        <div class="money-card reveal">
+          <div class="e">☕</div>
+          <h3>Supportami con un caffè</h3>
+          <p>FantAmici è gratis. Se ti strappa una risata, offrimi un caffè: aiuta a tenerlo online e a inventare nuove sfide.</p>
+          <a class="btn sun lg" href="${PAYPAL_URL}" target="_blank" rel="noopener">☕ Offri un caffè su PayPal</a>
+        </div>
+        <div class="money-card reveal">
+          <div class="e">🏟️</div>
+          <h3>Collaborazioni con i locali</h3>
+          <p>Gestisci un locale e vuoi portare FantAmici nelle tue serate con sfide e bonus brandizzati? Scrivimi, parliamone.</p>
+          <a class="btn aqua lg" href="mailto:${CONTACT_EMAIL}?subject=Collaborazione%20FantAmici">✉️ ${CONTACT_EMAIL}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recensioni">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="tag">La parola al gruppo</span><h2>Cosa dicono gli amici</h2><p>Lascia la tua recensione: comparirà qui sotto per tutti.</p></div>
+      <div class="reviews" id="reviewsList"><div class="empty"><span class="e">💬</span>Caricamento…</div></div>
+      <div class="card reveal" style="max-width:620px;margin:28px auto 0">
+        <div id="reviewMsg"></div>
+        <h3 style="margin-bottom:14px">✍️ Lascia un feedback</h3>
+        <div class="assign-grid">
+          <div class="field"><label>Il tuo nome</label><input id="rvName" placeholder="Es. Marco" maxlength="30"></div>
+          <div class="field"><label>Voto</label>
+            <div class="star-pick" id="rvStars">${[1,2,3,4,5].map(n=>`<span class="sp" data-n="${n}" onclick="pickStar(${n})">★</span>`).join('')}</div>
+          </div>
+        </div>
+        <div class="field"><label>La tua recensione</label><input id="rvText" placeholder="Com'è andata la vostra serata FantAmici?" maxlength="220"></div>
+        <button class="btn coral block" onclick="submitReview()">Pubblica recensione 💬</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel-bg" id="segnala">
+    <div class="wrap">
+      <div class="card reveal" style="max-width:620px;margin:0 auto">
+        <div id="fbMsg"></div>
+        <h3 style="margin-bottom:6px">🐞 Segnala un bug o suggerisci una modifica</h3>
+        <p class="hint" style="margin-bottom:16px">Hai trovato un problema o hai un'idea per migliorare FantAmici? Raccontamelo.</p>
+        <div class="field"><label>Tipo</label>
+          <div class="seg" id="fbType"><button data-v="bug" class="on">🐞 Bug</button><button data-v="idea">💡 Suggerimento</button></div></div>
+        <div class="field"><label>La tua mail (facoltativa, se vuoi risposta)</label><input id="fbEmail" type="email" placeholder="tu@email.it" maxlength="60"></div>
+        <div class="field"><label>Descrizione</label><input id="fbText" placeholder="Descrivi il bug o l'idea…" maxlength="400"></div>
+        <button class="btn aqua block" onclick="submitFeedback()">Invia segnalazione 📨</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="card reveal" style="text-align:center;background:linear-gradient(135deg,var(--coral),var(--coral-deep));color:#fff;border:none">
+        <h2 style="font-size:clamp(1.8rem,4vw,2.6rem)">Pronto a creare la tua lega? 🍻</h2>
+        <p style="font-weight:700;font-size:1.1rem;margin:10px 0 22px;opacity:.95">Bastano 2 minuti. Il resto lo fanno gli amici.</p>
+        <button class="btn sun lg" onclick="go('host')">Inizia ora →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="brand"><div class="logo">🍻</div><span>Fant<b>Amici</b></span></div>
+    <div>FantAmici · il fantagioco che rende leggendaria ogni serata tra amici.</div>
+    <div style="margin-top:8px">Collaborazioni e idee: <a class="mail" href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></div>
+  </footer>`;
+  animateCounters();
+  loadReviews();
+}
+
+/* ---------- RECENSIONI ---------- */
+let rvRating=0;
+function pickStar(n){rvRating=n;document.querySelectorAll('#rvStars .sp').forEach(s=>s.classList.toggle('on',+s.dataset.n<=n));}
+async function loadReviews(){
+  const box=document.getElementById('reviewsList'); if(!box)return;
+  let list=DB.reviews||[];
+  if(CLOUD){ try{ const cloud=await cloudListReviews(); if(cloud)list=cloud; }catch(e){console.warn(e);} }
+  list=[...list].sort((a,b)=>new Date(b.created_at||b.date||0)-new Date(a.created_at||a.date||0));
+  if(!list.length){box.innerHTML=`<div class="empty"><span class="e">💬</span>Ancora nessuna recensione. Sii il primo!</div>`;return;}
+  box.innerHTML=list.slice(0,12).map(r=>`<div class="review-card">
+    <div class="rv-top"><div class="av" style="background:${avColor(r.name||'?')}">${initials(r.name||'?')}</div>
+      <div><div class="rv-name">${escape(r.name||'Anonimo')}</div>
+      <div class="rv-stars">${'★'.repeat(r.rating||0)}<span class="off">${'★'.repeat(5-(r.rating||0))}</span></div></div></div>
+    <p class="rv-text">${escape(r.text||'')}</p></div>`).join('');
+}
+async function submitReview(){
+  const name=document.getElementById('rvName').value.trim();
+  const text=document.getElementById('rvText').value.trim();
+  const msg=document.getElementById('reviewMsg'); msg.innerHTML='';
+  if(!name||!text)return msg.innerHTML=`<div class="notice err">Scrivi nome e recensione.</div>`;
+  if(!rvRating)return msg.innerHTML=`<div class="notice err">Assegna un voto da 1 a 5 stelle.</div>`;
+  const review={name,rating:rvRating,text,created_at:new Date().toISOString()};
+  DB.reviews.unshift(review); saveDB(DB);
+  if(CLOUD){ try{ await cloudAddReview({name,rating:rvRating,text}); }catch(e){console.warn(e);} }
+  document.getElementById('rvName').value='';document.getElementById('rvText').value='';
+  rvRating=0; document.querySelectorAll('#rvStars .sp').forEach(s=>s.classList.remove('on'));
+  msg.innerHTML=`<div class="notice ok">Grazie! Recensione pubblicata 💛</div>`;
+  loadReviews();
+}
+
+/* ---------- FEEDBACK / BUG ---------- */
+async function submitFeedback(){
+  const kind=document.querySelector('#fbType button.on').dataset.v;
+  const email=document.getElementById('fbEmail').value.trim();
+  const text=document.getElementById('fbText').value.trim();
+  const msg=document.getElementById('fbMsg'); msg.innerHTML='';
+  if(!text)return msg.innerHTML=`<div class="notice err">Scrivi una descrizione.</div>`;
+  const fb={kind,email,text,created_at:new Date().toISOString()};
+  DB.feedback.unshift(fb); saveDB(DB);
+  if(CLOUD){
+    try{ await cloudAddFeedback({kind,email,text}); msg.innerHTML=`<div class="notice ok">Grazie! Segnalazione inviata 🙌</div>`; }
+    catch(e){ openFeedbackMail(kind,email,text); msg.innerHTML=`<div class="notice info">Apro la tua app mail per inviarla…</div>`; }
+  }else{
+    openFeedbackMail(kind,email,text);
+    msg.innerHTML=`<div class="notice info">Apro la tua app mail per inviarla a me direttamente…</div>`;
+  }
+  document.getElementById('fbEmail').value='';document.getElementById('fbText').value='';
+}
+function openFeedbackMail(kind,email,text){
+  const subj=encodeURIComponent(`[FantAmici] ${kind==='bug'?'Bug':'Suggerimento'}`);
+  const body=encodeURIComponent(`Tipo: ${kind}\nDa: ${email||'(non indicata)'}\n\n${text}`);
+  window.location.href=`mailto:${CONTACT_EMAIL}?subject=${subj}&body=${body}`;
+}
+function rulesHTML(f,lg){
+  return allRules(lg).filter(r=>f==='all'||r.type===f).map(r=>`
+    <div class="rule ${r.type}">
+      <div class="re">${r.e||'⭐'}</div>
+      <div class="rt">${escape(r.t)}${r.note?`<small>↳ ${escape(r.note)}</small>`:''}</div>
+      <div class="rp">${r.p>0?'+':''}${r.p}</div>
+    </div>`).join('');
+}
+function filterRules(f,btn){
+  document.querySelectorAll('.chip-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('rulesGrid').innerHTML=rulesHTML(f,{customRules:[]});
+}
+function animateCounters(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target=+el.dataset.count, dur=900, t0=performance.now();
+    function tick(now){const p=Math.min((now-t0)/dur,1);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick);}
+    requestAnimationFrame(tick);
+  });
+}
+
+/* =========================================================
+   HOST · login / registrazione lega
+   ========================================================= */
+function viewHost(app){
+  app.innerHTML=`
+  <section class="panel-bg" style="min-height:calc(100vh - 68px)">
+    <div class="wrap">
+      <div class="page-head"><div><h2>Area Host 🎪</h2><div class="sub">Crea una nuova lega oppure rientra nella tua.</div></div>
+      <button class="btn ghost sm" onclick="go('home')">← Home</button></div>
+      <div class="center-narrow">
+        <div class="tabs">
+          <div class="tab active" id="t-new" onclick="hostTab('new')">✨ Nuova lega</div>
+          <div class="tab" id="t-login" onclick="hostTab('login')">🔑 Rientra</div>
+        </div>
+        <div id="hostPane"></div>
+      </div>
+    </div>
+  </section>`;
+  hostTab('new');
+}
+function hostTab(which){
+  document.getElementById('t-new').classList.toggle('active',which==='new');
+  document.getElementById('t-login').classList.toggle('active',which==='login');
+  const p=document.getElementById('hostPane');
+  if(which==='new'){
+    p.innerHTML=`<div class="card">
+      <div id="hostMsg"></div>
+      <div class="field"><label>Nome della lega</label><input id="lgName" placeholder="Es. Estate Senza Freni 2026" maxlength="40"></div>
+      <div class="field"><label>Il tuo nome (host)</label><input id="hUser" placeholder="Come ti chiami?" maxlength="30"></div>
+      <div class="field"><label>Password host</label><input id="hPass" type="password" placeholder="Scegli una password" maxlength="40">
+        <div class="hint">Ti servirà per rientrare e gestire punteggi ed eventi.</div></div>
+      <div class="field"><label>Durata del campionato</label>
+        <div class="seg" id="durSeg"><button data-v="1" class="on">1 mese</button><button data-v="2">2 mesi</button><button data-v="3">3 mesi</button></div></div>
+      <button class="btn coral block lg" onclick="createLeague()">Crea la lega 🎉</button>
+    </div>`;
+    p.querySelectorAll('#durSeg button').forEach(b=>b.onclick=()=>{p.querySelectorAll('#durSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+  }else{
+    p.innerHTML=`<div class="card">
+      <div id="hostMsg"></div>
+      <div class="field"><label>Codice lega</label><input id="lCode" placeholder="ABC123" maxlength="6" style="text-transform:uppercase;letter-spacing:3px"></div>
+      <div class="field"><label>Nome host</label><input id="lUser" placeholder="Il tuo nome"></div>
+      <div class="field"><label>Password</label><input id="lPass" type="password" placeholder="La tua password"></div>
+      <button class="btn aqua block lg" onclick="hostLogin()">Entra nella gestione 🔑</button>
+    </div>`;
+  }
+}
+function hmsg(html,ok){document.getElementById('hostMsg').innerHTML=`<div class="notice ${ok?'ok':'err'}">${html}</div>`;}
+async function createLeague(){
+  const name=document.getElementById('lgName').value.trim();
+  const user=document.getElementById('hUser').value.trim();
+  const pass=document.getElementById('hPass').value;
+  const dur=+document.querySelector('#durSeg button.on').dataset.v;
+  if(!name||!user||!pass)return hmsg('Compila nome lega, nome host e password.');
+  if(pass.length<3)return hmsg('La password deve avere almeno 3 caratteri.');
+  let code;
+  if(CLOUD){ // assicura codice univoco anche sul cloud
+    do{code=genCode();}while(await cloudGetLeague(code));
+  }else{ code=genCode(); }
+  DB.leagues[code]={code,name,host:{user,pass},durationMonths:dur,createdAt:Date.now(),startDate:null,
+    friends:[],teams:[],events:[],customRules:[],plus:false,status:'draft'};
+  session={leagueCode:code,role:'host',hostAuth:true,myFriendId:null};
+  persist();
+  toast('Lega creata! 🎉');
+  go('dash');
+}
+async function hostLogin(){
+  const code=document.getElementById('lCode').value.trim().toUpperCase();
+  const user=document.getElementById('lUser').value.trim();
+  const pass=document.getElementById('lPass').value;
+  if(CLOUD){
+    try{ const data=await cloudGetLeague(code); if(data)DB.leagues[code]=data; }
+    catch(e){ return hmsg('Problema di connessione al database. Riprova.'); }
+  }
+  const lg=DB.leagues[code];
+  if(!lg)return hmsg('Codice lega non trovato.');
+  if(lg.host.user.toLowerCase()!==user.toLowerCase()||lg.host.pass!==pass)return hmsg('Nome host o password errati.');
+  session={leagueCode:code,role:'host',hostAuth:true,myFriendId:null};
+  saveDB(DB);
+  toast('Bentornato! 👋');
+  go('dash');
+}
+
+/* =========================================================
+   HOST · dashboard
+   ========================================================= */
+function viewDash(app){
+  const lg=DB.leagues[session.leagueCode];
+  if(!lg||!session.hostAuth){return go('host');}
+  app.innerHTML=`
+  <section class="panel-bg" style="min-height:calc(100vh - 68px)">
+    <div class="wrap">
+      <div class="page-head">
+        <div><h2>${escape(lg.name)} ${lg.plus?'<span class="plus-badge">⚡ Plus</span>':''}</h2>
+          <div class="sub">Pannello host · ${lg.durationMonths} ${lg.durationMonths>1?'mesi':'mese'} · stato: ${statusLabel(lg.status)} ${CLOUD?'<span class="live-dot">live</span>':''}</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn ghost sm" onclick="go('league',{code:'${lg.code}'})">👀 Vista pubblica</button>
+          <button class="btn ghost sm" onclick="logout()">Esci</button>
+        </div>
+      </div>
+
+      <div class="code-box" style="margin-bottom:22px">
+        <div><div class="lbl">Codice da condividere coi giocatori</div><div class="code">${lg.code}</div></div>
+        <button class="btn ghost sm" style="margin-left:auto" onclick="copyCode('${lg.code}')">📋 Copia codice</button>
+        <button class="btn ghost sm" onclick="copyLink('${lg.code}')">🔗 Copia link invito</button>
+        ${lg.status==='draft'?`<button class="btn sun sm" onclick="startChamp()">🚀 Avvia campionato</button>`:''}
+        ${lg.status==='running'?`<button class="btn ghost sm" onclick="endChamp()">🏁 Chiudi campionato</button>`:''}
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" id="d-friends" onclick="dashTab('friends')">👥 Amici & punteggi</div>
+        <div class="tab" id="d-teams" onclick="dashTab('teams')">👯 Squadre</div>
+        <div class="tab" id="d-events" onclick="dashTab('events')">⚡ Bonus/Malus</div>
+        <div class="tab" id="d-rank" onclick="dashTab('rank')">🏆 Classifiche</div>
+        <div class="tab" id="d-plus" onclick="dashTab('plus')">⚡ Plus</div>
+      </div>
+      <div id="dashPane"></div>
+    </div>
+  </section>`;
+  dashTab('friends');
+}
+function statusLabel(s){return {draft:'📝 in preparazione',running:'🟢 in corso',ended:'🏁 concluso'}[s]||s;}
+function copyCode(c){navigator.clipboard?.writeText(c);toast('Codice copiato! 📋');}
+function copyLink(c){const url=shareLink(c);
+  if(navigator.share){navigator.share({title:'FantAmici',text:'Entra nella mia lega FantAmici!',url}).catch(()=>{});}
+  else{navigator.clipboard?.writeText(url);toast('Link invito copiato! 🔗');}}
+function logout(){session={leagueCode:null,role:null,hostAuth:false,myFriendId:null};go('home');}
+function startChamp(){const lg=DB.leagues[session.leagueCode];
+  if(lg.friends.length<5)return toast('Servono almeno 5 amici registrati.');
+  if(!lg.teams.length)return toast('Nessuna squadra ancora creata: avvisa i giocatori!');
+  lg.status='running';lg.startDate=Date.now();persist();toast('Campionato avviato! 🚀');go('dash');}
+function endChamp(){const lg=DB.leagues[session.leagueCode];lg.status='ended';persist();toast('Campionato concluso! 🏁');go('dash');}
+
+function dashTab(which){
+  ['friends','teams','events','rank','plus'].forEach(k=>document.getElementById('d-'+k).classList.toggle('active',k===which));
+  const p=document.getElementById('dashPane');const lg=DB.leagues[session.leagueCode];
+  if(which==='friends')p.innerHTML=paneFriends();
+  if(which==='teams')p.innerHTML=paneTeams(lg);
+  if(which==='events')p.innerHTML=paneEvents();
+  if(which==='rank')p.innerHTML=`<div class="card">${rankBlocks(lg)}</div>`;
+  if(which==='plus')p.innerHTML=panePlus(lg);
+}
+/* aggiornamento live del pannello host: tocca solo le schede senza campi di input */
+function refreshDashLive(){
+  const active=document.querySelector('.tabs .tab.active'); if(!active)return;
+  const tab=active.id.replace('d-','');
+  const ae=document.activeElement;
+  if(ae && (ae.tagName==='INPUT'||ae.tagName==='SELECT'||ae.tagName==='TEXTAREA')) return; // non disturbare chi sta scrivendo
+  if(tab==='rank'||tab==='teams') dashTab(tab); // solo classifiche e squadre si auto-aggiornano
+}
+
+/* --- pane: amici & rating --- */
+function paneFriends(){
+  const lg=DB.leagues[session.leagueCode];
+  return `<div class="card">
+    <h3 style="margin-bottom:4px">Registra gli amici</h3>
+    <p class="hint" style="margin-bottom:16px">Aggiungi le persone giocabili e dai a ognuna un punteggio da 1 (tranquillo) a 4 (super accollativo). Questi valori li può cambiare solo tu, ma tutti i giocatori li vedono.</p>
+    <div class="field" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1;min-width:180px"><label>Nome amico</label><input id="newFriend" placeholder="Es. Giulia" maxlength="30" onkeydown="if(event.key==='Enter')addFriend()"></div>
+      <button class="btn aqua" onclick="addFriend()">+ Aggiungi</button>
+    </div>
+    <div id="friendList" style="margin-top:18px">${friendListHTML(lg)}</div>
+  </div>`;
+}
+function friendListHTML(lg){
+  if(!lg.friends.length)return `<div class="empty"><span class="e">🫂</span>Nessun amico ancora. Inizia ad aggiungerne!</div>`;
+  return lg.friends.map(f=>`
+    <div class="friend-row">
+      <div class="av" style="background:${avColor(f.name)}">${initials(f.name)}</div>
+      <div class="nm">${escape(f.name)}</div>
+      <div class="rating-stars">${[1,2,3,4].map(n=>`<div class="s ${f.rating>=n?'on':''}" onclick="setRating('${f.id}',${n})">${n}</div>`).join('')}</div>
+      <button class="btn ghost sm" onclick="removeFriend('${f.id}')">🗑️</button>
+    </div>`).join('');
+}
+function addFriend(){
+  const lg=DB.leagues[session.leagueCode];
+  const inp=document.getElementById('newFriend');const name=inp.value.trim();
+  if(!name)return;
+  if(lg.friends.some(f=>f.name.toLowerCase()===name.toLowerCase()))return toast('Nome già presente.');
+  lg.friends.push({id:uid(),name,rating:2});persist();inp.value='';
+  document.getElementById('friendList').innerHTML=friendListHTML(lg);inp.focus();
+}
+function setRating(id,n){const lg=DB.leagues[session.leagueCode];const f=lg.friends.find(x=>x.id===id);f.rating=n;persist();
+  document.getElementById('friendList').innerHTML=friendListHTML(lg);}
+function removeFriend(id){const lg=DB.leagues[session.leagueCode];
+  if(lg.teams.some(t=>t.friendIds.includes(id)||t.ownerFriendId===id))return toast('Amico già usato in una squadra: non rimovibile.');
+  lg.friends=lg.friends.filter(f=>f.id!==id);lg.events=lg.events.filter(e=>e.friendId!==id);persist();
+  document.getElementById('friendList').innerHTML=friendListHTML(lg);}
+
+/* --- pane: squadre (host le vede tutte) --- */
+function paneTeams(lg){
+  if(!lg.teams.length)return `<div class="card"><div class="empty"><span class="e">👯</span>Nessuna squadra creata. Condividi il codice <b>${lg.code}</b>: i giocatori entrano e creano la propria squadra.</div></div>`;
+  return `<div class="card"><h3 style="margin-bottom:14px">Squadre della lega (${lg.teams.length})</h3>
+    ${lg.teams.map(t=>`<div class="friend-row" style="flex-direction:column;align-items:stretch;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="av" style="background:${avColor(t.name)}">${initials(t.name)}</div>
+        <div class="nm">${escape(t.name)} <small style="color:var(--ink-soft)">· di ${escape(t.ownerName)}</small></div>
+        <div class="pts" style="font-family:'Fredoka';font-weight:700;color:var(--green-deep)">${teamPoints(lg,t)>0?'+':''}${teamPoints(lg,t)} pt</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${t.friendIds.map(fid=>`<span style="background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-weight:800;font-size:.85rem">${escape(friendName(lg,fid))} <b style="color:var(--sun-deep)">${(lg.friends.find(f=>f.id===fid)||{}).rating||0}★</b></span>`).join('')}
+      </div></div>`).join('')}
+  </div>`;
+}
+
+/* --- pane: eventi (assegna bonus/malus) --- */
+function paneEvents(){
+  const lg=DB.leagues[session.leagueCode];
+  if(!lg.friends.length)return `<div class="card"><div class="empty"><span class="e">👥</span>Aggiungi prima qualche amico nella scheda "Amici & punteggi".</div></div>`;
+  return `<div class="card">
+    <h3 style="margin-bottom:14px">Assegna un evento</h3>
+    <div class="assign-grid">
+      <div class="field"><label>A chi?</label><select id="evFriend">${lg.friends.map(f=>`<option value="${f.id}">${escape(f.name)}</option>`).join('')}</select></div>
+      <div class="field"><label>Serata (data)</label><input type="date" id="evDate" value="${todayStr()}"></div>
+    </div>
+    <div class="field"><label>Cosa è successo?</label><select id="evRule">
+      <optgroup label="😇 Bonus">${allRules(lg).filter(r=>r.type==='bonus').map(r=>`<option value="${r.id}">${r.e} ${escape(r.t)} (+${r.p})</option>`).join('')}</optgroup>
+      <optgroup label="😈 Malus">${allRules(lg).filter(r=>r.type==='malus').map(r=>`<option value="${r.id}">${r.e} ${escape(r.t)} (${r.p})</option>`).join('')}</optgroup>
+    </select></div>
+    <button class="btn coral block" onclick="addEvent()">⚡ Registra evento</button>
+    <p class="hint">⚠️ Ogni <b>bonus</b> può essere assegnato a una persona una sola volta per serata. I malus invece possono ripetersi.</p>
+    <h3 style="margin:22px 0 4px">Cronologia eventi</h3>
+    <div class="event-log" id="evLog">${eventLogHTML(lg)}</div>
+  </div>`;
+}
+function eventLogHTML(lg){
+  if(!lg.events.length)return `<div class="empty" style="padding:24px"><span class="e">📜</span>Ancora nessun evento registrato.</div>`;
+  return [...lg.events].sort((a,b)=>b.date-a.date).map(e=>{const r=getRule(lg,e.ruleId);
+    return `<div class="ev"><span style="font-size:1.2rem">${r?.e||'⚡'}</span>
+      <span><b>${escape(friendName(lg,e.friendId))}</b> · ${r?escape(r.t):'evento'} <span class="nt">${e.night?'· '+fmtDate(e.night):''}</span></span>
+      <span class="ep ${e.p>0?'pos':'neg'}">${e.p>0?'+':''}${e.p}</span>
+      <span class="del" onclick="delEvent('${e.id}')">✕</span></div>`;}).join('');
+}
+function addEvent(){
+  const lg=DB.leagues[session.leagueCode];
+  const fid=document.getElementById('evFriend').value;
+  const rid=document.getElementById('evRule').value;
+  const night=document.getElementById('evDate').value||todayStr();
+  const r=getRule(lg,rid);
+  if(!r)return;
+  // un bonus per serata per persona
+  if(r.type==='bonus' && lg.events.some(e=>e.friendId===fid&&e.ruleId===rid&&e.night===night)){
+    return toast(`"${r.t}" già assegnato a ${friendName(lg,fid)} per il ${fmtDate(night)}.`);
+  }
+  // condizioni speciali (es. offre da bere)
+  if(r.confirm && !window.confirm(r.confirm)) return;
+  lg.events.push({id:uid(),friendId:fid,ruleId:rid,p:r.p,night,date:Date.now()});persist();
+  document.getElementById('evLog').innerHTML=eventLogHTML(lg);
+  toast(`${r.p>0?'Bonus':'Malus'} a ${friendName(lg,fid)} ${r.p>0?'+':''}${r.p}`);
+}
+function delEvent(id){const lg=DB.leagues[session.leagueCode];lg.events=lg.events.filter(e=>e.id!==id);persist();
+  document.getElementById('evLog').innerHTML=eventLogHTML(lg);}
+
+/* --- pane: Plus (monetizzazione) --- */
+function panePlus(lg){
+  if(!lg.plus){
+    const liveMode = !!GUMROAD_PRODUCT_ID;
+    return `<div class="card upsell">
+      <span class="plus-badge">⚡ FantAmici Plus</span>
+      <h3 style="margin-top:14px">Sblocca i bonus & malus personalizzati</h3>
+      <div class="price">${PLUS_PRICE}</div>
+      <ul>
+        <li>✨ Crea regole su misura per il tuo gruppo</li>
+        <li>🎨 Bonus a tema per serate speciali</li>
+        <li>😈 Malus "interni" che solo voi capite</li>
+        <li>♾️ Numero illimitato di regole custom</li>
+      </ul>
+      <a class="btn sun lg" href="${PAYPAL_URL}" target="_blank" rel="noopener" style="margin-bottom:14px">💳 Acquista FantAmici Plus</a>
+      ${liveMode ? `
+        <div id="plusMsg"></div>
+        <div class="field" style="max-width:340px;margin:0 auto 10px"><label style="color:#fff">Inserisci il codice licenza ricevuto</label>
+          <input id="licenseKey" placeholder="XXXX-XXXX-XXXX-XXXX" style="text-align:center;letter-spacing:1px"></div>
+        <button class="btn ghost sm" onclick="verifyPlus()">✅ Verifica e sblocca</button>
+        <p class="hint" style="color:rgba(255,255,255,.85);margin-top:12px">Dopo il pagamento ricevi un codice licenza: incollalo qui per attivare il Plus su questa lega.</p>
+      ` : `
+        <div><button class="btn ghost sm" onclick="unlockPlus()">Ho pagato · sblocca ora</button></div>
+        <p class="hint" style="color:rgba(255,255,255,.85);margin-top:12px">Modalità demo: lo sblocco è simulato. Imposta <b>GUMROAD_PRODUCT_ID</b> per la verifica reale del pagamento (vedi SETUP.md).</p>
+      `}
+    </div>`;
+  }
+  return `<div class="card">
+    <h3 style="margin-bottom:6px">Regole personalizzate <span class="plus-badge">⚡ Plus</span></h3>
+    <p class="hint" style="margin-bottom:16px">Crea i tuoi bonus e malus. Compaiono nel regolamento e tra gli eventi assegnabili.</p>
+    <div class="assign-grid">
+      <div class="field"><label>Emoji</label><input id="crE" placeholder="🎉" maxlength="3"></div>
+      <div class="field"><label>Tipo</label><select id="crType"><option value="bonus">😇 Bonus (+)</option><option value="malus">😈 Malus (−)</option></select></div>
+    </div>
+    <div class="field"><label>Descrizione</label><input id="crT" placeholder="Es. Indossa la maglia della squadra del cuore" maxlength="70"></div>
+    <div class="field"><label>Punti (valore assoluto, 1–30)</label><input id="crP" type="number" min="1" max="30" value="5"></div>
+    <button class="btn plum block" onclick="addCustomRule()">+ Aggiungi regola</button>
+    <div id="crList" style="margin-top:18px">${customRulesHTML(lg)}</div>
+  </div>`;
+}
+function unlockPlus(){const lg=DB.leagues[session.leagueCode];lg.plus=true;persist();toast('FantAmici Plus attivo! ⚡');go('dash');setTimeout(()=>dashTab('plus'),0);}
+/* Verifica reale del pagamento tramite licenza Gumroad (nessun server necessario) */
+async function verifyPlus(){
+  const key=document.getElementById('licenseKey').value.trim();
+  const msg=document.getElementById('plusMsg'); msg.innerHTML='';
+  if(!key)return msg.innerHTML=`<div class="notice err" style="background:rgba(0,0,0,.2);color:#fff">Inserisci il codice licenza.</div>`;
+  try{
+    const res=await fetch('https://api.gumroad.com/v2/licenses/verify',{
+      method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({product_id:GUMROAD_PRODUCT_ID,license_key:key,increment_uses_count:'false'})
+    });
+    const data=await res.json();
+    if(data.success){
+      const lg=DB.leagues[session.leagueCode];lg.plus=true;lg.license=key;persist();
+      toast('FantAmici Plus attivo! ⚡');go('dash');setTimeout(()=>dashTab('plus'),0);
+    }else{
+      msg.innerHTML=`<div class="notice err" style="background:rgba(0,0,0,.2);color:#fff">Licenza non valida. Controlla il codice.</div>`;
+    }
+  }catch(e){
+    msg.innerHTML=`<div class="notice err" style="background:rgba(0,0,0,.2);color:#fff">Errore di verifica. Riprova tra poco.</div>`;
+  }
+}
+function customRulesHTML(lg){
+  if(!lg.customRules?.length)return `<div class="empty" style="padding:24px"><span class="e">🎨</span>Nessuna regola personalizzata. Creane una!</div>`;
+  return lg.customRules.map(r=>`<div class="friend-row">
+    <div style="font-size:1.4rem">${r.e||'⭐'}</div>
+    <div class="nm">${escape(r.t)}</div>
+    <div style="font-family:'Fredoka';font-weight:700;color:${r.p>0?'var(--green-deep)':'var(--red-deep)'}">${r.p>0?'+':''}${r.p}</div>
+    <button class="btn ghost sm" onclick="delCustomRule('${r.id}')">🗑️</button>
+  </div>`).join('');
+}
+function addCustomRule(){
+  const lg=DB.leagues[session.leagueCode];
+  const e=document.getElementById('crE').value.trim()||'⭐';
+  const type=document.getElementById('crType').value;
+  const t=document.getElementById('crT').value.trim();
+  let p=Math.abs(parseInt(document.getElementById('crP').value,10)||0);
+  if(!t)return toast('Scrivi una descrizione.');
+  if(!p||p>30)return toast('Punti tra 1 e 30.');
+  if(type==='malus')p=-p;
+  lg.customRules.push({id:'c'+uid(),type,e,t,p,custom:true});persist();
+  document.getElementById('crT').value='';document.getElementById('crE').value='';
+  document.getElementById('crList').innerHTML=customRulesHTML(lg);
+  toast('Regola aggiunta! 🎨');
+}
+function delCustomRule(id){const lg=DB.leagues[session.leagueCode];lg.customRules=lg.customRules.filter(r=>r.id!==id);
+  lg.events=lg.events.filter(e=>e.ruleId!==id);persist();
+  document.getElementById('crList').innerHTML=customRulesHTML(lg);}
+
+/* =========================================================
+   CLASSIFICHE
+   ========================================================= */
+function rankBlocks(lg){
+  const players=[...lg.friends].map(f=>({id:f.id,name:f.name,pts:friendPoints(lg,f.id)})).sort((a,b)=>b.pts-a.pts);
+  const teams=[...lg.teams].map(t=>({id:t.id,name:t.name,owner:t.ownerName,pts:teamPoints(lg,t)})).sort((a,b)=>b.pts-a.pts);
+  return `
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" class="rank-cols">
+    <div>
+      <h3 style="margin-bottom:12px">🌟 Classifica giocatori</h3>
+      <p class="hint" style="margin-bottom:14px">Tocca un giocatore per vedere lo storico dei suoi punti.</p>
+      ${players.length?`<div class="lb">${players.map((p,i)=>lbRow(i,p.name,'',p.pts,`openPlayerDetail('${lg.code}','${p.id}')`)).join('')}</div>`:emptyLB('Nessun amico registrato.')}
+    </div>
+    <div>
+      <h3 style="margin-bottom:12px">🏆 Classifica squadre</h3>
+      <p class="hint" style="margin-bottom:14px">Tocca una squadra per vedere i suoi componenti.</p>
+      ${teams.length?`<div class="lb">${teams.map((t,i)=>lbRow(i,t.name,'di '+t.owner,t.pts,`openTeamDetail('${lg.code}','${t.id}')`)).join('')}</div>`:emptyLB('Nessuna squadra ancora formata.')}
+    </div>
+  </div>
+  <style>@media(max-width:760px){.rank-cols{grid-template-columns:1fr !important}}</style>`;
+}
+function lbRow(i,name,meta,pts,click){
+  const medal=['🥇','🥈','🥉'][i]||(i+1);
+  return `<div class="lb-row ${i<3?'r'+(i+1):''} ${click?'clickable':''}" ${click?`onclick="${click}"`:''}>
+    <div class="rank">${medal}</div>
+    <div class="av" style="background:${avColor(name)}">${initials(name)}</div>
+    <div class="who"><div class="n">${escape(name)}</div>${meta?`<div class="m">${escape(meta)}</div>`:''}</div>
+    <div class="pts ${pts>=0?'pos':'neg'}">${pts>0?'+':''}${pts}</div>
+    ${click?'<div class="chev">›</div>':''}
+  </div>`;
+}
+function emptyLB(t){return `<div class="empty"><span class="e">📊</span>${t}</div>`;}
+
+/* =========================================================
+   MODALE DETTAGLIO (giocatore / squadra)
+   ========================================================= */
+function showModal(html){
+  let m=document.getElementById('modal');
+  if(!m){m=document.createElement('div');m.id='modal';document.body.appendChild(m);
+    m.addEventListener('click',e=>{if(e.target===m)closeModal();});}
+  m.innerHTML=`<div class="sheet">${html}</div>`;
+  m.classList.add('show');
+}
+function closeModal(){const m=document.getElementById('modal');if(m)m.classList.remove('show');}
+
+function openPlayerDetail(code,fid){
+  const lg=DB.leagues[code];if(!lg)return;
+  const f=lg.friends.find(x=>x.id===fid);if(!f)return;
+  const evs=lg.events.filter(e=>e.friendId===fid).sort((a,b)=>b.date-a.date);
+  const total=friendPoints(lg,fid);
+  const bonusCount=evs.filter(e=>e.p>0).length, malusCount=evs.filter(e=>e.p<0).length;
+  // a quali squadre appartiene
+  const inTeams=lg.teams.filter(t=>t.friendIds.includes(fid)).map(t=>t.name);
+  const body = evs.length
+    ? `<div class="event-log" style="max-height:46vh">${evs.map(e=>{const r=getRule(lg,e.ruleId);
+        return `<div class="ev"><span style="font-size:1.2rem">${r?.e||'⚡'}</span>
+          <span>${r?escape(r.t):'evento'} <span class="nt">${e.night?'· '+fmtDate(e.night):''}</span></span>
+          <span class="ep ${e.p>0?'pos':'neg'}">${e.p>0?'+':''}${e.p}</span></div>`;}).join('')}</div>`
+    : `<div class="empty" style="padding:30px"><span class="e">🌟</span>Ancora nessun punto. La serata è giovane!</div>`;
+  showModal(`
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div class="modal-head">
+      <div class="av" style="width:58px;height:58px;font-size:1.3rem;background:${avColor(f.name)}">${initials(f.name)}</div>
+      <div><h3 style="font-size:1.5rem">${escape(f.name)}</h3>
+        <div class="sub" style="color:var(--ink-soft);font-weight:700">Accollo ${f.rating}★ ${inTeams.length?'· in: '+inTeams.map(escape).join(', '):''}</div></div>
+      <div class="big-pts ${total>=0?'pos':'neg'}">${total>0?'+':''}${total}</div>
+    </div>
+    <div class="mini-stats">
+      <div><b style="color:var(--green-deep)">${bonusCount}</b><span>bonus</span></div>
+      <div><b style="color:var(--red-deep)">${malusCount}</b><span>malus</span></div>
+      <div><b>${evs.length}</b><span>eventi</span></div>
+    </div>
+    <h4 style="margin:6px 0 10px">📜 Storico punti</h4>
+    ${body}`);
+}
+
+function openTeamDetail(code,tid){
+  const lg=DB.leagues[code];if(!lg)return;
+  const t=lg.teams.find(x=>x.id===tid);if(!t)return;
+  const total=teamPoints(lg,t);
+  const members=[...t.friendIds].map(fid=>({fid,name:friendName(lg,fid),
+    rating:(lg.friends.find(f=>f.id===fid)||{}).rating||0,pts:friendPoints(lg,fid)}))
+    .sort((a,b)=>b.pts-a.pts);
+  showModal(`
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div class="modal-head">
+      <div class="av" style="width:58px;height:58px;font-size:1.3rem;background:${avColor(t.name)}">${initials(t.name)}</div>
+      <div><h3 style="font-size:1.5rem">${escape(t.name)}</h3>
+        <div class="sub" style="color:var(--ink-soft);font-weight:700">Capitano: ${escape(t.ownerName)}</div></div>
+      <div class="big-pts ${total>=0?'pos':'neg'}">${total>0?'+':''}${total}</div>
+    </div>
+    <h4 style="margin:6px 0 10px">👯 Componenti (${members.length})</h4>
+    <div class="lb">${members.map(m=>`
+      <div class="lb-row clickable" onclick="openPlayerDetail('${code}','${m.fid}')">
+        <div class="av" style="background:${avColor(m.name)}">${initials(m.name)}</div>
+        <div class="who"><div class="n">${escape(m.name)}</div><div class="m">Accollo ${m.rating}★</div></div>
+        <div class="pts ${m.pts>=0?'pos':'neg'}">${m.pts>0?'+':''}${m.pts}</div>
+        <div class="chev">›</div>
+      </div>`).join('')}</div>
+    <p class="hint" style="margin-top:12px">Tocca un componente per il suo storico.</p>`);
+}
+
+/* =========================================================
+   GUEST · entra con codice
+   ========================================================= */
+function viewJoin(app,opt){
+  const pre=(opt&&opt.code)?escape(opt.code):'';
+  app.innerHTML=`
+  <section class="panel-bg" style="min-height:calc(100vh - 68px)">
+    <div class="wrap">
+      <div class="page-head"><div><h2>Entra in una lega 🎟️</h2><div class="sub">Inserisci il codice che ti ha dato l'host.</div></div>
+      <button class="btn ghost sm" onclick="go('home')">← Home</button></div>
+      <div class="center-narrow">
+        <div class="card">
+          <div id="joinMsg"></div>
+          <div class="field"><label>Codice lega</label>
+            <input id="joinCode" value="${pre}" placeholder="ABC123" maxlength="6" style="text-transform:uppercase;letter-spacing:5px;font-size:1.4rem;text-align:center" onkeydown="if(event.key==='Enter')joinLeague()"></div>
+          <button class="btn aqua block lg" onclick="joinLeague()">Entra 🚪</button>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+async function joinLeague(){
+  const code=document.getElementById('joinCode').value.trim().toUpperCase();
+  if(CLOUD){
+    try{ const data=await cloudGetLeague(code); if(data)DB.leagues[code]=data; saveDB(DB); }
+    catch(e){ document.getElementById('joinMsg').innerHTML=`<div class="notice err">Problema di connessione. Riprova.</div>`; return; }
+  }
+  const lg=DB.leagues[code];
+  if(!lg){document.getElementById('joinMsg').innerHTML=`<div class="notice err">Codice non trovato. Controlla con l'host.</div>`;return;}
+  session={leagueCode:code,role:'guest',hostAuth:false,myFriendId:null};
+  go('league',{code});
+}
+
+/* =========================================================
+   VISTA LEGA (pubblica)
+   ========================================================= */
+async function refreshLeague(code){
+  if(!CLOUD)return;
+  try{ const data=await cloudGetLeague(code); if(data){DB.leagues[code]=data;saveDB(DB);toast('Aggiornato 🔄');go('league',{code});} }
+  catch(e){ toast('⚠️ Aggiornamento non riuscito.'); }
+}
+function viewLeague(app,opt){
+  const code=opt?.code||session.leagueCode;
+  const lg=DB.leagues[code];
+  if(!lg)return go('join');
+  session.leagueCode=code;
+  const canCreate = lg.status==='draft' && lg.friends.length>=5;
+  app.innerHTML=`
+  <section class="panel-bg" style="min-height:calc(100vh - 68px)">
+    <div class="wrap">
+      <div class="page-head">
+        <div><h2>${escape(lg.name)}</h2><div class="sub">Lega ${lg.code} · ${lg.teams.length} squadre · ${statusLabel(lg.status)} ${CLOUD?'<span class="live-dot">live</span>':''}</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn ghost sm" onclick="copyLink('${lg.code}')">🔗 Invita</button>
+          ${CLOUD?`<button class="btn ghost sm" onclick="refreshLeague('${lg.code}')">🔄 Aggiorna</button>`:''}
+          <button class="btn ghost sm" onclick="go('home')">← Home</button>
+        </div>
+      </div>
+
+      ${lg.status==='draft'?`
+        <div class="card" style="background:linear-gradient(135deg,var(--coral),var(--coral-deep));color:#fff;border:none;margin-bottom:18px;text-align:center">
+          <h3 style="font-size:1.5rem;margin-bottom:6px">🎮 Tocca a te: crea la tua squadra!</h3>
+          <p style="font-weight:700;opacity:.95;margin-bottom:16px">Scegli il tuo personaggio e i tuoi 5 amici (max 12 punti). La squadra entra subito in lega.</p>
+          ${canCreate
+            ? `<button class="btn sun lg" onclick="go('team',{code:'${lg.code}'})">➕ Crea la tua squadra</button>`
+            : `<div class="notice info" style="margin:0">⏳ L'host sta ancora registrando gli amici (servono almeno 5). Torna tra poco!</div>`}
+        </div>`
+        :`<div class="notice info">🟢 Il campionato è ${lg.status==='ended'?'concluso':'in corso'}: le squadre sono bloccate. Guarda le classifiche aggiornarsi!</div>`}
+
+      <div class="card" style="margin-bottom:18px">
+        <h3 style="margin-bottom:14px">👥 Rosa & punteggi accollo</h3>
+        <p class="hint" style="margin-bottom:14px">Punteggi assegnati dall'host (1–4). Tutti li vedono, solo l'host può cambiarli.</p>
+        ${lg.friends.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
+          ${lg.friends.map(f=>`<div class="friend-row" style="margin:0">
+            <div class="av" style="background:${avColor(f.name)}">${initials(f.name)}</div>
+            <div class="nm">${escape(f.name)}</div>
+            <div class="rating-stars read">${[1,2,3,4].map(n=>`<div class="s ${f.rating>=n?'on':''}">${n}</div>`).join('')}</div>
+          </div>`).join('')}
+        </div>`:emptyLB('L\'host non ha ancora registrato gli amici.')}
+      </div>
+
+      <div class="card">${rankBlocks(lg)}</div>
+    </div>
+  </section>`;
+}
+
+/* =========================================================
+   GUEST · crea squadra (draft)
+   ========================================================= */
+let draftState={picks:[],ownerId:null};
+function viewTeam(app,opt){
+  const code=opt?.code||session.leagueCode;
+  const lg=DB.leagues[code];
+  if(!lg)return go('join');
+  if(lg.status!=='draft'){toast('Il campionato è già iniziato: niente più modifiche.');return go('league',{code});}
+  if(lg.friends.length<5){toast('Servono almeno 5 amici nella rosa.');return go('league',{code});}
+  session.leagueCode=code;
+  draftState={picks:[],ownerId:null};
+  app.innerHTML=`
+  <section class="panel-bg" style="min-height:calc(100vh - 68px)">
+    <div class="wrap">
+      <div class="page-head"><div><h2>Crea la tua squadra 👯</h2>
+        <div class="sub">5 amici · budget massimo <b>12 punti</b> · non puoi scegliere te stesso</div></div>
+        <button class="btn ghost sm" onclick="go('league',{code:'${lg.code}'})">← Annulla</button></div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div id="teamMsg"></div>
+        <div class="field"><label>1 · Chi sei tu?</label>
+          <select id="ownerSel" onchange="setOwner(this.value)">
+            <option value="">— seleziona il tuo personaggio —</option>
+            ${lg.friends.map(f=>`<option value="${f.id}">${escape(f.name)}</option>`).join('')}
+          </select>
+          <div class="hint">Verrai escluso dalla scelta: non puoi far parte della tua stessa squadra (conflitto d'interessi 😄).</div>
+        </div>
+        <div class="field" style="margin-bottom:0"><label>2 · Nome della squadra</label><input id="teamName" placeholder="Es. I Senza Filtro" maxlength="32"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:14px">3 · Scegli 5 amici</h3>
+        <div class="draft-grid" id="draftGrid">${draftGridHTML(lg)}</div>
+      </div>
+
+      <div class="budget-bar" id="budgetBar">
+        <span>👯 <b id="bCount">0</b>/5 scelti</span>
+        <div class="meter"><i id="bMeter" style="width:0%"></i></div>
+        <span>💰 <b id="bSpent">0</b>/12 punti</span>
+        <button class="btn sun" onclick="saveTeam('${lg.code}')">💾 Salva squadra</button>
+      </div>
+    </div>
+  </section>`;
+}
+function draftGridHTML(lg){
+  return lg.friends.map(f=>{
+    const picked=draftState.picks.includes(f.id);
+    const isOwner=draftState.ownerId===f.id;
+    return `<div class="draft-card ${picked?'picked':''} ${isOwner?'disabled':''}" data-id="${f.id}" onclick="togglePick('${f.id}')">
+      <div class="av" style="background:${avColor(f.name)}">${initials(f.name)}</div>
+      <div class="nm">${escape(f.name)}${isOwner?' <small>(tu)</small>':''}</div>
+      <div class="cost">${f.rating}★</div>
+      <div class="check">✅</div>
+    </div>`;}).join('');
+}
+function setOwner(id){
+  draftState.ownerId=id;
+  draftState.picks=draftState.picks.filter(p=>p!==id);
+  refreshDraft();
+}
+function togglePick(id){
+  if(draftState.ownerId===id)return toast('Non puoi scegliere te stesso! 😄');
+  const i=draftState.picks.indexOf(id);
+  if(i>=0)draftState.picks.splice(i,1);
+  else{
+    if(draftState.picks.length>=5)return toast('Hai già scelto 5 amici.');
+    draftState.picks.push(id);
+  }
+  refreshDraft();
+}
+function refreshDraft(){
+  const lg=DB.leagues[session.leagueCode];
+  document.getElementById('draftGrid').innerHTML=draftGridHTML(lg);
+  const spent=draftState.picks.reduce((s,id)=>s+(lg.friends.find(f=>f.id===id)?.rating||0),0);
+  document.getElementById('bCount').textContent=draftState.picks.length;
+  document.getElementById('bSpent').textContent=spent;
+  document.getElementById('bMeter').style.width=Math.min(spent/12*100,100)+'%';
+  document.getElementById('budgetBar').classList.toggle('over',spent>12);
+}
+function saveTeam(code){
+  const lg=DB.leagues[code];
+  const name=document.getElementById('teamName').value.trim();
+  const msg=document.getElementById('teamMsg');
+  msg.innerHTML='';
+  if(!draftState.ownerId)return msg.innerHTML=`<div class="notice err">Seleziona prima chi sei (passo 1).</div>`;
+  if(!name)return msg.innerHTML=`<div class="notice err">Dai un nome alla tua squadra (passo 2).</div>`;
+  if(lg.teams.some(t=>t.ownerFriendId===draftState.ownerId))return msg.innerHTML=`<div class="notice err">${escape(friendName(lg,draftState.ownerId))} ha già una squadra in questa lega.</div>`;
+  if(draftState.picks.length!==5)return msg.innerHTML=`<div class="notice err">Devi scegliere esattamente 5 amici (ne hai ${draftState.picks.length}).</div>`;
+  const spent=draftState.picks.reduce((s,id)=>s+lg.friends.find(f=>f.id===id).rating,0);
+  if(spent>12)return msg.innerHTML=`<div class="notice err">Hai speso ${spent} punti: il massimo è 12. Cambia qualche amico.</div>`;
+  lg.teams.push({id:uid(),name,ownerFriendId:draftState.ownerId,ownerName:friendName(lg,draftState.ownerId),
+    friendIds:[...draftState.picks],createdAt:Date.now()});
+  persist();
+  toast('Squadra creata e aggiunta alla lega! 🎉');
+  go('league',{code});
+}
+
+/* ---------- REVEAL on scroll ---------- */
+function initReveal(){
+  const els=document.querySelectorAll('.reveal');
+  if(!els.length)return;
+  const io=new IntersectionObserver((ents)=>ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.15});
+  els.forEach((el,i)=>{el.style.transitionDelay=(i%4*60)+'ms';io.observe(el);});
+}
+
+/* ---------- avvio ---------- */
+renderFromURL();
+</script>
+</body>
+</html>

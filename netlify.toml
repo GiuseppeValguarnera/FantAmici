@@ -1,0 +1,22 @@
+# Configurazione Netlify per FantAmici
+# Carica questo file insieme a index.html (e _redirects) nella stessa cartella.
+
+# Tutte le rotte vengono servite da index.html (Single Page App con URL puliti)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Header utili (sicurezza di base + caching corretto della SPA)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Non mettere in cache l'HTML, così gli aggiornamenti si vedono subito
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
