@@ -448,6 +448,18 @@ async function cloudSaveLeague(code,data){
     prefer:'resolution=merge-duplicates,return=minimal',
     body:JSON.stringify({code,data,updated_at:new Date().toISOString()})});
 }
+/* conteggi globali reali (tutte le leghe di tutti gli utenti) dal database */
+async function cloudGlobalStats(){
+  const rows=await sb(`leagues?select=data`);
+  if(!rows) return null;
+  let teams=0, champ=0;
+  rows.forEach(r=>{
+    const d=r.data||{};
+    teams += (d.teams||[]).length;
+    if(d.status==='running'||d.status==='ended') champ++;
+  });
+  return {leagues:rows.length, teams, champ};
+}
 async function cloudListReviews(){ return await sb(`reviews?select=*&order=created_at.desc&limit=50`); }
 async function cloudAddReview(r){ await sb(`reviews`,{method:'POST',prefer:'return=minimal',body:JSON.stringify(r)}); }
 async function cloudAddFeedback(f){ await sb(`feedback`,{method:'POST',prefer:'return=minimal',body:JSON.stringify(f)}); }
@@ -805,8 +817,24 @@ function viewHome(app){
     <div>FantAmici · il fantagioco che rende leggendaria ogni serata tra amici.</div>
     <div style="margin-top:8px">Collaborazioni e idee: <a class="mail" href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></div>
   </footer>`;
-  animateCounters();
+animateCounters();
   loadReviews();
+  refreshGlobalStats();
+}
+
+/* aggiorna i 3 contatori della home coi numeri reali dal database */
+async function refreshGlobalStats(){
+  if(!CLOUD) return;
+  try{
+    const st=await cloudGlobalStats();
+    if(!st) return;
+    const map={'.stat.s1 .num':st.leagues,'.stat.s2 .num':st.teams,'.stat.s3 .num':st.champ};
+    Object.entries(map).forEach(([sel,val])=>{
+      const el=document.querySelector(sel);
+      if(el){ el.dataset.count=val; }
+    });
+    animateCounters();
+  }catch(e){ console.warn('Stats cloud non disponibili:',e); }
 }
 
 /* ---------- RECENSIONI ---------- */
